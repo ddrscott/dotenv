@@ -80,3 +80,10 @@ function syn {
   fi
 }
 
+function man {
+  if [ $# -eq 0 ]; then
+    /usr/bin/man `print -rl -- ${(ko)commands} | fzf --preview 'man {}'`
+  else
+    /usr/bin/man $*
+  fi
+}
