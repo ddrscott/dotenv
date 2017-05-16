@@ -45,7 +45,7 @@ function fold {
 
 # Use `fzf` against system dictionary
 function spell {
-  cat /usr/share/dict/words | fzf
+  cat /usr/share/dict/words | fzf --preview 'wn {} -over | fold' --preview-window=up:60%
 }
 
 # Lookup definition of word using `wn $1 -over`.
