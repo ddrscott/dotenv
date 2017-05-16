@@ -101,12 +101,20 @@ export GOPATH=$HOME/golang
 export GOROOT=/usr/local/opt/go/libexec
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
+
+# FZF Stuff
 export FZF_DEFAULT_COMMAND='ag -g ""'
-export FZF_COMPLETION_OPTS='--exact'
+export FZF_HIGHLIGHT_PREVIEW_OPTS="--height 100% --preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null' --preview-window=up:40%"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--delimiter '/' --nth=-1 $FZF_HIGHLIGHT_PREVIEW_OPTS"
+export FZF_CTRL_R_COMMAND=$FZF_DEFAULT_COMMAND
+#export FZF_CTRL_R_OPTS="--sort --exact --height 100% --preview 'echo {} | cut -d \" \" -f2' --preview-window=up:40%"
+export FZF_CTRL_R_OPTS="--exact --height 100%"
+
+
 #export FZF_DEFAULT_OPTS='--exact'
 #export LOG_SRC=true
 export GRADLE_OPTS=-Dorg.gradle.daemon=true
-
 
 # Path shortcuts
 export c=~/c/
