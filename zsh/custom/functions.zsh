@@ -1,7 +1,3 @@
-function e {
-  vim -O $(fzf --delimiter '/' --nth=-1 --height 100% --preview "pygmentize {}" --preview-window=up:40%)
-}
-
 function set_nvr {
   export NVIM_LISTEN_ADDRESS=`nvr --serverlist | sed '/^$/d' | head -1`
 }
