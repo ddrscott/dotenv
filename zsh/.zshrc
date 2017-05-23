@@ -89,6 +89,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+export KEYTIMEOUT=20
+
 export EDITOR='/usr/local/bin/nvim'
 export ECLIPSE_HOME=/Applications/Eclipse.app/Contents/Eclipse
 
