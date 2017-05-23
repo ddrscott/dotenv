@@ -139,3 +139,5 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 if [[ $OSTYPE == darwin* ]]; then
   defaults write -g NSUseSpellCheckerForCompletions -bool false
 fi
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
