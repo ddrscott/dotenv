@@ -119,9 +119,10 @@ export FZF_CTRL_R_OPTS="--exact --height 100%"
 export GRADLE_OPTS=-Dorg.gradle.daemon=true
 
 # Path shortcuts
-export c=~/c/
-export cmm=~/code/cmm/
 export blog=~/code/octopress/
+export c=~/code/
+export cmm=~/code/cmm/
+export n=~/notes/
 export sp=~/code/sql_probe/
 export v=~/.config/nvim/
 
