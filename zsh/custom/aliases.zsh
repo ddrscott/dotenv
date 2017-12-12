@@ -22,3 +22,6 @@ alias ggpushf='ggpush --force-with-lease'
 alias light=base16_solarized-light
 alias dark=base16_ocean
 alias dict='cat /usr/share/dict/words | fzf --preview "open -g dict://{}; echo See Dictionary.app"'
+
+alias py=python2
+alias py3='python3 -q -Xfaulthandler'
