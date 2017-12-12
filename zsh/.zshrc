@@ -94,7 +94,7 @@ export KEYTIMEOUT=20
 export EDITOR='/usr/local/bin/nvim'
 export ECLIPSE_HOME=/Applications/Eclipse.app/Contents/Eclipse
 
-eval "$(rbenv init - zsh --no-rehash)"
+eval "$(rbenv init - zsh)"
 
 export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
 export AWS_REGION='us-east-1'
