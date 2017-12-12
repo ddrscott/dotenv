@@ -25,3 +25,4 @@ alias dict='cat /usr/share/dict/words | fzf --preview "open -g dict://{}; echo S
 
 alias py=python2
 alias py3='python3 -q -Xfaulthandler'
+alias pip=pip2
