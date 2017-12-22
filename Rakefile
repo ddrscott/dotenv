@@ -13,6 +13,7 @@ desc 'symlink files'
 task :links do
   ln_sf File.expand_path('ag/.agignore'), File.expand_path('~/.agignore')
   ln_sf File.expand_path('screen/.screenrc'), File.expand_path('~/.screenrc')
+  ln_sf File.expand_path('pry/pryrc.rb'), File.expand_path('~/.pryrc')
 
   mkdir_p File.expand_path('~/.ptpython')
   ln_sf File.expand_path('ptpython/config.py'), File.expand_path('~/.ptpython/config.py')
