@@ -8,9 +8,11 @@ function httpd {
   ruby -run -e httpd $@ -p $http_port
 }
 
-function cd {
-  builtin cd "$@" && tree -L 1
-}
+# This was cute for a while, but it was starting to fill up view with
+# information I never read.
+# function cd {
+#   builtin cd "$@" && tree -L 1
+# }
 
 function tail_logs {
   # Make some colors
