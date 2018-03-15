@@ -103,6 +103,13 @@ export GOPATH=$HOME/golang
 export GOROOT=/usr/local/opt/go/libexec
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
+export PATH=$PATH:~/.cargo/bin
+
+# Rust Stuff
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+
+# Crystal Stuff
+export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig
 
 # FZF Stuff
 export FZF_DEFAULT_COMMAND='ag -g "" --hidden'
