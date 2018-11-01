@@ -50,19 +50,19 @@ ZSH_CUSTOM=~/ddrscott/zsh/custom
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git fancy-ctrl-z rake-fast)
+plugins=(git fancy-ctrl-z rake-fast dotenv)
+
+source $ZSH/oh-my-zsh.sh
 
 # User configuration
-
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-export PATH=$PATH:~/bin:./bin
+export PATH="/usr/local/sbin:$PATH"
 export PATH=$PATH:./node_modules/.bin
-export PATH=$PATH:~/Library/Python/3.5/bin
-export PATH=$PATH:~/Library/Python/2.7/bin
+# export PATH=$PATH:~/Library/Python/3.5/bin
+# export PATH=$PATH:~/Library/Python/2.7/bin
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
-source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -94,8 +94,6 @@ export KEYTIMEOUT=20
 export EDITOR='/usr/local/bin/nvim'
 export ECLIPSE_HOME=/Applications/Eclipse.app/Contents/Eclipse
 
-eval "$(rbenv init - zsh)"
-
 export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
 export AWS_REGION='us-east-1'
 
@@ -103,9 +101,9 @@ export GOPATH=$HOME/golang
 export GOROOT=/usr/local/opt/go/libexec
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
-export PATH=$PATH:~/.cargo/bin
 
 # Rust Stuff
+export PATH=$PATH:~/.cargo/bin
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
 # Crystal Stuff
@@ -133,6 +131,10 @@ export n=~/notes/
 export sp=~/code/sql_probe/
 export v=~/.config/nvim/
 
+# Codesign
+export CODESIGN_APP_CNAME='Developer ID Application: Scott Pierce (DH6NDWAQQ2)'
+export CODESIGN_INSTALL_CNAME='Developer ID Installer: Scott Pierce (DH6NDWAQQ2)'
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 git config --global web.browser open
@@ -140,6 +142,8 @@ git config --global web.browser open
 # Colors
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
+base16_ocean
 
 # Disable spell completion when ESC is presssed.
 #
@@ -149,3 +153,12 @@ if [[ $OSTYPE == darwin* ]]; then
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+export PATH="/usr/local/opt/llvm@5/bin:$PATH"
+export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
+export PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH"
+
+eval "$(rbenv init - zsh)"
+
+# Put custom bin paths ahead of everything
+export PATH=$PATH:~/bin:./bin:./exe
+

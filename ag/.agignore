@@ -1,1 +1,3 @@
 .git
+*.js.map
+components/ui/public

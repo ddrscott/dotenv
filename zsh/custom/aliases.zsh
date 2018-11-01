@@ -23,7 +23,8 @@ alias light=base16_solarized-light
 alias dark=base16_ocean
 alias dict='cat /usr/share/dict/words | fzf --preview "open -g dict://{}; echo See Dictionary.app"'
 
-alias python=python2
-alias py=python2
-alias py3='python3 -q -Xfaulthandler'
-alias pip=pip2
+alias pbc='pbpaste | pbcopy'
+# alias python=python2
+# alias py=python2
+# alias py3='python3 -q -Xfaulthandler'
+# alias pip=pip2

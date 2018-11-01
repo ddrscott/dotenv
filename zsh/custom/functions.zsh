@@ -25,7 +25,7 @@ function tail_logs {
   RE_SESSION='[0-9a-f]{32}'
 
   # Loud errors and remove noisy tags
-  tail -F `find . -name '*.log' | grep -v WARN` | sed -E -e "s/\|$RE_SESSION//g" -e "s/\|$RE_UUID//g" -e "s/(ERROR|FATAL)/$ANSI_RED\1$ANSI_CLEAR$ANSI_BELL/"
+  tail -F `find . -name '*.log' | grep -v WARN | grep -v newrelic` | sed -E -e "s/\|$RE_SESSION//g" -e "s/\|$RE_UUID//g" -e "s/(ERROR|FATAL)/$ANSI_RED\1$ANSI_CLEAR$ANSI_BELL/" | ts -i
 }
 
 # say_fortune
