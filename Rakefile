@@ -11,6 +11,7 @@ end
 
 desc 'symlink files'
 task :links do
+  ln_sf File.expand_path('.'), File.expand_path('~/ddrscott')
   ln_sf File.expand_path('zsh/.zshrc'), File.expand_path('~/.zshrc')
   ln_sf File.expand_path('ag/.agignore'), File.expand_path('~/.agignore')
   ln_sf File.expand_path('screen/.screenrc'), File.expand_path('~/.screenrc')
