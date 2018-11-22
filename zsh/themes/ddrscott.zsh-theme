@@ -4,7 +4,7 @@ function _prompt_char() {
   if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
     echo "%{%F{blue}%}±%{%f%k%b%}"
   else
-    echo '🤙'
+    echo ''
   fi
 }
 
@@ -25,7 +25,7 @@ ZSH_THEME_GIT_PROMPT_CLEAN=""
 
 PROMPT='%{%f%k%b%}
 %{%K{${bkg}}%B%F{green}%}%n%{%B%F{blue}%}%{%B%F{green}%} %{%b%F{yellow}%K{${bkg}}%}%~%{%B%F{green}%}$(git_prompt_info)%E%{%f%k%b%}
-%{%K{${bkg}}%} $(_prompt_char)%{%K{${bkg}}%} %#%{%f%k%b%} '
+%{%K{${bkg}}%}$(_prompt_char)%{%K{${bkg}}%}%#%{%f%k%b%} '
 
 # Hide due to excessive whitespace during copy/paste
 # RPROMPT='!%{%B%F{cyan}%}%!%{%f%k%b%}'
