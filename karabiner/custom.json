@@ -1122,6 +1122,92 @@
       ]
     },
     {
+      "description": "Change `a` to Vim navigation",
+      "manipulators": [
+        {
+          "from": {
+            "key_code": "a",
+            "modifiers": { "optional": [ "any" ] }
+          },
+          "to": [ { "set_variable": { "name": "a_mode", "value": 1} } ],
+          "to_if_alone": [
+            {
+              "key_code": "a"
+            }
+          ],
+          "to_after_key_up": [
+            { "set_variable": { "name": "a_mode", "value": 0 } }
+          ],
+          "type": "basic"
+        },
+        {
+          "from": { "key_code": "j" },
+          "to": [ { "key_code": "down_arrow" } ],
+          "conditions": [ { "type": "variable_if", "name": "a_mode", "value": 1 } ],
+          "type": "basic"
+        },
+        {
+          "from": { "key_code": "k" },
+          "to": [ { "key_code": "up_arrow" } ],
+          "conditions": [ { "type": "variable_if", "name": "a_mode", "value": 1 } ],
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "Change ; to control if pressed with other keys, to ; if pressed alone.",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "semicolon",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_control"
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "semicolon"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Change Space to Shift if pressed with other keys, to Space if pressed alone.",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to_if_held_down": [
+            {
+              "key_code": "left_shift"
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "spacebar"
+            }
+          ]
+        }
+      ]
+    },
+    ,
+    {
       "description": "Change caps_lock to control if pressed with other keys, to ESC if pressed alone, and VIM Normal Mode",
       "manipulators": [
         {
