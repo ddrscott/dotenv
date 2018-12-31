@@ -2,6 +2,103 @@
   "title": "@_ddrscott_ custom settings",
   "rules": [
     {
+      "description": "Super Tab Mode, otherwise tab if pressed alone.",
+      "manipulators": [
+        {
+          "from": {
+            "key_code": "tab",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "set_variable": {
+                "name": "tab_mode",
+                "value": 1
+              }
+            }
+          ],
+          "to_if_alone": [
+            {
+              "hold_down_milliseconds": 50,
+              "key_code": "tab"
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "tab_mode",
+                "value": 0
+              }
+            }
+          ],
+          "type": "basic"
+        },
+        {
+          "from": { "key_code": "y", "modifiers": { "optional": [ "any" ] } },
+          "conditions": [ 
+            { "type": "variable_if", "name": "tab_mode", "value": 1 },
+            { "bundle_identifiers": [ "^com\\.citrix.*" ], "type": "frontmost_application_unless" }
+          ],
+          "to": [ { "key_code": "c", "modifiers": ["left_command"] } ],
+          "type": "basic"
+        },
+        {
+          "from": { "key_code": "p", "modifiers": { "optional": [ "any" ] } },
+          "conditions": [ { "type": "variable_if", "name": "tab_mode", "value": 1 }, { "bundle_identifiers": [ "^com\\.citrix.*" ], "type": "frontmost_application_unless" } ],
+          "to": [ { "key_code": "v", "modifiers": ["left_command"] } ],
+          "type": "basic"
+        },
+        {
+          "from": { "key_code": "y", "modifiers": { "optional": [ "any" ] } },
+          "conditions": [ { "type": "variable_if", "name": "tab_mode", "value": 1 }, { "bundle_identifiers": [ "^com\\.citrix.*" ], "type": "frontmost_application_if" } ],
+          "to": [ { "key_code": "insert", "modifiers": ["left_control"] } ],
+          "type": "basic"
+        },
+        {
+          "from": { "key_code": "p", "modifiers": { "optional": [ "any" ] } },
+          "conditions": [ { "type": "variable_if", "name": "tab_mode", "value": 1 }, { "bundle_identifiers": [ "^com\\.citrix.*" ], "type": "frontmost_application_if" } ],
+          "to": [ { "key_code": "insert", "modifiers": ["left_shift"] } ],
+          "type": "basic"
+        },
+        {
+          "from": { "key_code": "q", "modifiers": { "optional": [ "any" ] } },
+          "conditions": [ 
+            { "type": "variable_if", "name": "tab_mode", "value": 1 }
+          ],
+          "to": [ { "key_code": "semicolon" }, { "key_code": "q" } ],
+          "type": "basic"
+        },
+        {
+          "from": { "key_code": "j", "modifiers": { "optional": [ "any" ] } },
+          "conditions": [ { "type": "variable_if", "name": "tab_mode", "value": 1 } ],
+          "to": [ { "key_code": "down_arrow" } ],
+          "type": "basic"
+        },
+        {
+          "from": { "key_code": "k", "modifiers": { "optional": [ "any" ] } },
+          "conditions": [ { "type": "variable_if", "name": "tab_mode", "value": 1 } ],
+          "to": [ { "key_code": "up_arrow" } ],
+          "type": "basic"
+        },
+        {
+          "from": { "key_code": "h", "modifiers": { "optional": [ "any" ] } },
+          "conditions": [ { "type": "variable_if", "name": "tab_mode", "value": 1 } ],
+          "to": [ { "key_code": "left_arrow" } ],
+          "type": "basic"
+        },
+        {
+          "from": { "key_code": "l", "modifiers": { "optional": [ "any" ] } },
+          "conditions": [ { "type": "variable_if", "name": "tab_mode", "value": 1 } ],
+          "to": [ { "key_code": "right_arrow" } ],
+          "type": "basic"
+        }
+      ]
+    },
+    {
       "description": "[Mac Keyboard with Citrix] Swap left option/command with special Alt-Tab handler",
       "manipulators": [
         {
@@ -1206,7 +1303,6 @@
         }
       ]
     },
-    ,
     {
       "description": "Change caps_lock to control if pressed with other keys, to ESC if pressed alone, and VIM Normal Mode",
       "manipulators": [
