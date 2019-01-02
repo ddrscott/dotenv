@@ -2,16 +2,11 @@
   "title": "@_ddrscott_ custom settings",
   "rules": [
     {
-      "description": "Super Tab Mode, otherwise tab if pressed alone.",
+      "description": "Super Tab (Vim) Mode, otherwise tab if pressed alone.",
       "manipulators": [
         {
           "from": {
-            "key_code": "tab",
-            "modifiers": {
-              "optional": [
-                "any"
-              ]
-            }
+            "key_code": "tab"
           },
           "to": [
             {
@@ -23,7 +18,7 @@
           ],
           "to_if_alone": [
             {
-              "hold_down_milliseconds": 50,
+              "hold_down_milliseconds": 25,
               "key_code": "tab"
             }
           ],
@@ -35,6 +30,14 @@
               }
             }
           ],
+          "type": "basic"
+        },
+        {
+          "from": { "key_code": "q", "modifiers": { "optional": [ "any" ] } },
+          "conditions": [ 
+            { "type": "variable_if", "name": "tab_mode", "value": 1 }
+          ],
+          "to": [ { "key_code": "semicolon" }, { "key_code": "q" } ],
           "type": "basic"
         },
         {
@@ -65,14 +68,6 @@
           "type": "basic"
         },
         {
-          "from": { "key_code": "q", "modifiers": { "optional": [ "any" ] } },
-          "conditions": [ 
-            { "type": "variable_if", "name": "tab_mode", "value": 1 }
-          ],
-          "to": [ { "key_code": "semicolon" }, { "key_code": "q" } ],
-          "type": "basic"
-        },
-        {
           "from": { "key_code": "j", "modifiers": { "optional": [ "any" ] } },
           "conditions": [ { "type": "variable_if", "name": "tab_mode", "value": 1 } ],
           "to": [ { "key_code": "down_arrow" } ],
@@ -94,6 +89,39 @@
           "from": { "key_code": "l", "modifiers": { "optional": [ "any" ] } },
           "conditions": [ { "type": "variable_if", "name": "tab_mode", "value": 1 } ],
           "to": [ { "key_code": "right_arrow" } ],
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "Hold Semicolon to start Super Tab (Vim) Mode",
+      "manipulators": [
+        {
+          "from": {
+            "key_code": "semicolon"
+          },
+          "to": [
+            {
+              "set_variable": {
+                "name": "tab_mode",
+                "value": 1
+              }
+            }
+          ],
+          "to_if_alone": [
+            {
+              "hold_down_milliseconds": 25,
+              "key_code": "semicolon"
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "tab_mode",
+                "value": 0
+              }
+            }
+          ],
           "type": "basic"
         }
       ]
