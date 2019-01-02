@@ -75,7 +75,7 @@ export PATH=$PATH:./node_modules/.bin
 # fi
 
 # Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+export ARCHFLAGS="-arch x86_64"
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
@@ -91,10 +91,15 @@ export PATH=$PATH:./node_modules/.bin
 
 export KEYTIMEOUT=20
 
-export EDITOR='/usr/local/bin/nvim'
+# Let Base16 handle this stuff
+unset LS_COLORS
+
+export SHELL='/bin/zsh'
+
+export EDITOR='nvim'
 export ECLIPSE_HOME=/Applications/Eclipse.app/Contents/Eclipse
 
-export JAVA_HOME="$(/usr/libexec/java_home -v 11)"
+# export JAVA_HOME="$(/usr/libexec/java_home -v 11)"
 export AWS_REGION='us-east-1'
 
 export GOPATH=$HOME/golang
@@ -152,13 +157,22 @@ if [[ $OSTYPE == darwin* ]]; then
   defaults write -g NSUseSpellCheckerForCompletions -bool false
 fi
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-export PATH="/usr/local/opt/llvm@5/bin:$PATH"
-export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
-export PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH"
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# export PATH="/usr/local/opt/llvm@5/bin:$PATH"
+# export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
+# export PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH"
 
-eval "$(rbenv init - zsh)"
+# eval "$(rbenv init - zsh)"
 
-# Put custom bin paths ahead of everything
-export PATH=$PATH:~/bin:./bin:./exe
+# Put custom bin paths behind of everything
+export PATH=~/bin:$PATH:./bin:./exe
 
+# added by Miniconda3 installer
+export PATH="/local/apps/miniconda3/bin:$PATH"
+
+# Node Version Manager Stuff
+unset npm_config_prefix
+export NVM_DELETE_PREFIX=1
+export NVM_DIR=$HOME/.nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
