@@ -176,7 +176,9 @@ export LOCAL_PATH=/local
 export PATH="/local/apps/miniconda3/bin:$PATH"
 
 # Node Version Manager Stuff
-unset npm_config_prefix
 export NVM_DIR=$HOME/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# If interactive, not already in Tmux, and tmux installed try to attach to it
+[ -n "$PS1" ] && [ -z "$TMUX" ] && type tmux >/dev/null 2>&1 && tmux attach
