@@ -172,7 +172,6 @@ export PATH="/local/apps/miniconda3/bin:$PATH"
 
 # Node Version Manager Stuff
 unset npm_config_prefix
-export NVM_DELETE_PREFIX=1
 export NVM_DIR=$HOME/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
