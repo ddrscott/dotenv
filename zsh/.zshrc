@@ -169,7 +169,7 @@ export PATH=$PATH:~/bin:./bin:./exe
 
 export LOCAL_PATH=/local
 [ -d "$LOCAL_PATH/bin" ] && export PATH=$LOCAL_PATH/bin:$PATH
-[ -d "$LOCAL_PATH/lib" ] && export PATH=$LOCAL_PATH/lib:$PATH
+[ -d "$LOCAL_PATH/lib" ] && export LD_LIBRARY_PATH=$LOCAL_PATH/lib:$LD_LIBRARY_PATH
 [ -d "$LOCAL_PATH/share/man" ] && export MANPATH=$LOCAL_PATH/share/man:$MANPATH
 
 # added by Miniconda3 installer
