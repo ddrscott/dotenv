@@ -172,6 +172,14 @@ export LOCAL_PATH=/local
 [ -d "$LOCAL_PATH/lib" ] && export LD_LIBRARY_PATH=$LOCAL_PATH/lib:$LD_LIBRARY_PATH
 [ -d "$LOCAL_PATH/share/man" ] && export MANPATH=$LOCAL_PATH/share/man:$MANPATH
 
+
+export RBENV_ROOT=~/.rbenv
+if [ -d "$RBENV_ROOT" ]; then
+  export PATH=$RBENV_ROOT/bin:$PATH
+  export RBENV_VERSION=2.5.0
+  eval "$(rbenv init -)"
+fi
+
 # added by Miniconda3 installer
 export PATH="/local/apps/miniconda3/bin:$PATH"
 
