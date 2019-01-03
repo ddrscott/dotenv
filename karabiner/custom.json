@@ -1266,7 +1266,6 @@
       }
     ]
   },
-  ,
   {
     "description": "Change caps_lock to control if pressed with other keys, to ESC if pressed alone, and VIM Normal Mode",
     "manipulators": [
