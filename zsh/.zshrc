@@ -172,7 +172,12 @@ export LOCAL_PATH=/local
 [ -d "$LOCAL_PATH/lib" ] && export LD_LIBRARY_PATH=$LOCAL_PATH/lib:$LD_LIBRARY_PATH
 [ -d "$LOCAL_PATH/share/man" ] && export MANPATH=$LOCAL_PATH/share/man:$MANPATH
 
-
+# Due to system restrictions. The fast local disk is world writable which causes
+# all sorts of warnings to popup in Ruby-land. Setting the configure opts
+# disables the warnings and brings back my sanity.
+#
+# Thanks: https://stackoverflow.com/questions/5708806/erroneous-insecure-world-writable-dir-foo-in-path-when-running-ruby-script 
+export RUBY_CONFIGURE_OPTS="CPPFLAGS='-D ENABLE_PATH_CHECK=0'"
 export RBENV_ROOT=~/.rbenv
 if [ -d "$RBENV_ROOT" ]; then
   export PATH=$RBENV_ROOT/bin:$PATH
