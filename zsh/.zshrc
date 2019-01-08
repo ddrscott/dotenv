@@ -148,8 +148,6 @@ git config --global web.browser open
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
-base16_ocean
-
 # Disable spell completion when ESC is presssed.
 #
 # Thanks: https://discussions.apple.com/thread/7311015?start=0&tstart=0
@@ -172,7 +170,7 @@ export LOCAL_PATH=/local
 [ -d "$LOCAL_PATH/lib" ] && export LD_LIBRARY_PATH=$LOCAL_PATH/lib:$LD_LIBRARY_PATH
 [ -d "$LOCAL_PATH/share/man" ] && export MANPATH=$LOCAL_PATH/share/man:$MANPATH
 
-# Due to system restrictions. The fast local disk is world writable which causes
+# Due system restrictions. The fast local disk is world writable which causes
 # all sorts of warnings to popup in Ruby-land. Setting the configure opts
 # disables the warnings and brings back my sanity.
 #
