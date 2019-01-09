@@ -108,8 +108,10 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
 
 # Rust Stuff
-export PATH=$PATH:~/.cargo/bin
-export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+if type rustc >/dev/null 2>&1; then
+  export PATH=$PATH:~/.cargo/bin
+  export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+fi
 
 # Crystal Stuff
 export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig
