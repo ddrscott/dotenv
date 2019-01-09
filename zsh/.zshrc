@@ -186,7 +186,10 @@ if [ -d "$RBENV_ROOT" ]; then
 fi
 
 # added by Miniconda3 installer
-export PATH="/local/apps/miniconda3/bin:$PATH"
+export MINICODA_PATH=$LOCAL_PATH/miniconda3/bin
+[ -d "$MINICODA_PATH" ] && export PATH=$MINICODA_PATH:$PATH
+export CONDA_SH=$LOCAL_PATH/miniconda3/etc/profile.d/conda.sh
+[ -s "$CONDA_SH" ] && source "$CONDA_SH"
 
 # Node Version Manager Stuff
 export NVM_DIR=$HOME/.nvm
