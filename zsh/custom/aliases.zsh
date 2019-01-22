@@ -16,6 +16,7 @@ alias gb-point="git log --graph --oneline -99 | grep -A 1 -E '^\* [0-9a-f]{7}' |
 alias gb-ls='git --no-pager diff --diff-filter=ACMRTUXB --name-only `gb-point`..'
 alias gb-stat='git --no-pager diff --stat `gb-point`..'
 alias gbr='git branch --sort=committerdate'
+alias gpf='git push --force-with-lease'
 alias sed-stat="sed -E 's~ ([^ |]+)([ |])+(.+)~\1:0:0 \3~'"
 alias ggpushf='ggpush --force-with-lease'
 
