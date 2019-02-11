@@ -85,3 +85,7 @@ function man {
     /usr/bin/man $*
   fi
 }
+
+function set_title {
+   printf "\e]2;$*\e\\"
+}
