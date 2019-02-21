@@ -144,7 +144,7 @@ export CODESIGN_INSTALL_CNAME='Developer ID Installer: Scott Pierce (DH6NDWAQQ2)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-git config --global web.browser open
+type git >/dev/null 2>&1 && type open >/dev/null 2>&1 && git config --global web.browser open
 
 # Colors
 BASE16_SHELL=$HOME/.config/base16-shell/
@@ -165,7 +165,9 @@ fi
 # eval "$(rbenv init - zsh)"
 
 # Put custom bin paths behind of everything
-export PATH=$PATH:~/bin:./bin:./exe
+export PATH=$PATH:$HOME/bin:./bin:./exe
+export MANPATH=$HOME/share/man:$MANPATH
+export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
 
 export LOCAL_PATH=/local
 [ -d "$LOCAL_PATH/bin" ] && export PATH=$LOCAL_PATH/bin:$PATH
@@ -186,15 +188,21 @@ if [ -d "$RBENV_ROOT" ]; then
 fi
 
 # added by Miniconda3 installer
-export MINICODA_PATH=$LOCAL_PATH/miniconda3/bin
+export MINICODA_PATH=/opt/miniconda3/bin
 [ -d "$MINICODA_PATH" ] && export PATH=$MINICODA_PATH:$PATH
-export CONDA_SH=$LOCAL_PATH/miniconda3/etc/profile.d/conda.sh
-[ -s "$CONDA_SH" ] && source "$CONDA_SH"
+
+# Include MS SQL Tools when available
+[ -d "/opt/mssql-tools/bin" ] && export PATH=$PATH:/opt/mssql-tools/bin
 
 # Node Version Manager Stuff
 export NVM_DIR=$HOME/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# Enable more recent git
+[ -f /opt/rh/rh-git29/enable ] && source /opt/rh/rh-git29/enable
+
 # If interactive, not already in Tmux, and tmux installed try to attach to it
 [ -n "$PS1" ] && [ -z "$TMUX" ] && type tmux >/dev/null 2>&1 && tmux attach
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
