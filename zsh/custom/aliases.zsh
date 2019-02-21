@@ -4,9 +4,14 @@ alias be='bundle exec '
 alias adp='cd ~/code/adp'
 alias t='tree -L 1'
 alias gem-tags='ctags --verbose --languages=ruby --recurse -f .tags.gem $(bundle list --paths)'
-alias vim='nvim'
-alias vi='nvim'
-alias v='nvim'
+
+# Change vi[m] to NeoVim when it's available
+if [ -n "$PS1" ] && type nvim >/dev/null 2>&1; then
+  alias vim='nvim'
+  alias vi='nvim'
+  alias v='nvim'
+fi
+
 alias won='networksetup -setairportpower en0 on'
 alias woff='networksetup -setairportpower en0 off'
 alias fcd='cd `find . -type d | fzf`'
