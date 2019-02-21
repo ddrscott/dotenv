@@ -1,12 +1,9 @@
 # Python dev tools
 # pip install -r requirements.txt
-Flask
 argparse
 awscli
 black
 docker
-flask-cors
-flask-restplus
 ipdb
 ipython
 jedi
