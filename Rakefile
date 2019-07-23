@@ -15,6 +15,7 @@ task :links do
   ln_sf File.expand_path('zsh/.zshrc'), File.expand_path('~/.zshrc')
   ln_sf File.expand_path('ag/.agignore'), File.expand_path('~/.agignore')
   ln_sf File.expand_path('screen/.screenrc'), File.expand_path('~/.screenrc')
+  ln_sf File.expand_path('tmux.conf'), File.expand_path('~/.tmux.conf')
   ln_sf File.expand_path('pry/pryrc.rb'), File.expand_path('~/.pryrc')
   ln_sf File.expand_path('zsh/themes/ddrscott.zsh-theme'), File.expand_path('~/.oh-my-zsh/themes/ddrscott.zsh-theme')
 
