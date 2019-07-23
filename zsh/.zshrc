@@ -108,8 +108,8 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
 
 # Rust Stuff
-if type rustc >/dev/null 2>&1; then
-  export PATH=$PATH:~/.cargo/bin
+if [ -s "$HOME/.cargo/env" ]; then
+  source $HOME/.cargo/env
   export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 fi
 
@@ -138,10 +138,6 @@ export n=~/notes/
 export sp=~/code/sql_probe/
 export v=~/.config/nvim/
 
-# Codesign
-export CODESIGN_APP_CNAME='Developer ID Application: Scott Pierce (DH6NDWAQQ2)'
-export CODESIGN_INSTALL_CNAME='Developer ID Installer: Scott Pierce (DH6NDWAQQ2)'
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 type git >/dev/null 2>&1 && type open >/dev/null 2>&1 && git config --global web.browser open
@@ -165,7 +161,7 @@ fi
 # eval "$(rbenv init - zsh)"
 
 # Put custom bin paths behind of everything
-export PATH=$PATH:$HOME/bin:./bin:./exe
+export PATH=$HOME/bin:./bin:./exe:$PATH
 export MANPATH=$HOME/share/man:$MANPATH
 export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
 
@@ -188,7 +184,8 @@ if [ -d "$RBENV_ROOT" ]; then
 fi
 
 # added by Miniconda3 installer
-export MINICODA_PATH=/opt/miniconda3/bin
+# export MINICODA_PATH=/opt/miniconda3/bin
+export MINICODA_PATH=$LOCAL_PATH/miniconda3/bin
 [ -d "$MINICODA_PATH" ] && export PATH=$MINICODA_PATH:$PATH
 
 # Include MS SQL Tools when available
@@ -205,4 +202,8 @@ export NVM_DIR=$HOME/.nvm
 # If interactive, not already in Tmux, and tmux installed try to attach to it
 [ -n "$PS1" ] && [ -z "$TMUX" ] && type tmux >/dev/null 2>&1 && tmux attach
 
+# Global yarn config
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# kubernetens completion
+if [ /usr/bin/kubectl ]; then source <(kubectl completion zsh); fi
