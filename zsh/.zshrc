@@ -163,7 +163,7 @@ export PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH"
 type rbenv >/dev/null 2>&1 && eval "$(rbenv init - zsh)"
 
 # Put custom bin paths ahead of everything
-export PATH=$PATH:~/bin:./bin:./exe
+export PATH=$PATH:~/bin:./bin:./exe:~/.local/bin
 
 # kubernetes completion
 if [ -x /usr/bin/kubectl ]; then source <(kubectl completion zsh); fi
