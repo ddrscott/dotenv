@@ -165,3 +165,5 @@ type rbenv >/dev/null 2>&1 && eval "$(rbenv init - zsh)"
 # Put custom bin paths ahead of everything
 export PATH=$PATH:~/bin:./bin:./exe
 
+# kubernetes completion
+if [ -x /usr/bin/kubectl ]; then source <(kubectl completion zsh); fi
