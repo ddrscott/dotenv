@@ -94,7 +94,8 @@ export KEYTIMEOUT=20
 export EDITOR='/usr/local/bin/nvim'
 export ECLIPSE_HOME=/Applications/Eclipse.app/Contents/Eclipse
 
-export JAVA_HOME="$(/usr/libexec/java_home -v 11)"
+[ -f /usr/libexec/java_home ] && export JAVA_HOME="$(/usr/libexec/java_home -v 11)"
+
 export AWS_REGION='us-east-1'
 
 export GOPATH=$HOME/golang
@@ -103,8 +104,10 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
 
 # Rust Stuff
-export PATH=$PATH:~/.cargo/bin
-export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+if [ type rustc >/dev/null 2>&1 ]; then
+  export PATH=$PATH:~/.cargo/bin
+  export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+fi
 
 # Crystal Stuff
 export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig
@@ -137,13 +140,13 @@ export CODESIGN_INSTALL_CNAME='Developer ID Installer: Scott Pierce (DH6NDWAQQ2)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-git config --global web.browser open
+type git >/dev/null 2>&1 && git config --global web.browser open
 
 # Colors
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
-base16_ocean
+[ -n "$BASE16_THEME" ] && eval base16_${BASE16_THEME}
 
 # Disable spell completion when ESC is presssed.
 #
@@ -157,7 +160,7 @@ export PATH="/usr/local/opt/llvm@5/bin:$PATH"
 export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
 export PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH"
 
-eval "$(rbenv init - zsh)"
+type rbenv >/dev/null 2>&1 && eval "$(rbenv init - zsh)"
 
 # Put custom bin paths ahead of everything
 export PATH=$PATH:~/bin:./bin:./exe
