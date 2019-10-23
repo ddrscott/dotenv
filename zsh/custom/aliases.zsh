@@ -24,7 +24,8 @@ alias dark=base16_ocean
 alias dict='cat /usr/share/dict/words | fzf --preview "open -g dict://{}; echo See Dictionary.app"'
 
 alias pbc='pbpaste | pbcopy'
-# alias python=python2
+alias python=python3
+alias pip=pip3
 # alias py=python2
 # alias py3='python3 -q -Xfaulthandler'
 # alias pip=pip2
