@@ -85,3 +85,7 @@ function man {
     /usr/bin/man $*
   fi
 }
+
+function gcip {
+  gcloud compute instances list --filter="name~$1" --format=json | jq -r '. | map(.networkInterfaces[0].accessConfigs[0].natIP) | join(",")'
+}
