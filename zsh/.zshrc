@@ -50,7 +50,7 @@ ZSH_CUSTOM=~/ddrscott/zsh/custom
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git fancy-ctrl-z rake-fast dotenv)
+plugins=(git fancy-ctrl-z rake-fast dotenv kubectl)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -94,7 +94,7 @@ export KEYTIMEOUT=20
 export EDITOR='/usr/local/bin/nvim'
 export ECLIPSE_HOME=/Applications/Eclipse.app/Contents/Eclipse
 
-[ -f /usr/libexec/java_home ] && export JAVA_HOME="$(/usr/libexec/java_home -v 11)"
+[ -f /usr/libexec/java_home ] && export JAVA_HOME="$(/usr/libexec/java_home -v 13)"
 
 export AWS_REGION='us-east-1'
 
@@ -167,3 +167,14 @@ export PATH=$PATH:~/bin:./bin:./exe:~/.local/bin
 
 # kubernetes completion
 if [ -x /usr/bin/kubectl ]; then source <(kubectl completion zsh); fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+# If interactive, not already in Tmux, and tmux installed try to attach to it
+export TMUX_SESSION_PATH=/tmp/pair
+[ -n "$PS1" ] && [ -z "$TMUX" ] && type tmux >/dev/null 2>&1 && [ -f $TMUX_SESSION_PATH ] && tmux -S $TMUX_SESSION_PATH attach
+
+[ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+[ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
