@@ -89,3 +89,24 @@ function man {
 function gcip {
   gcloud compute instances list --filter="name~$1" --format=json | jq -r '. | map(.networkInterfaces[0].accessConfigs[0].natIP) | join(",")'
 }
+
+# Helper to browse Postgres tables using FZF
+# 
+# Example:
+#   ptable -h 35.184.159.193 -U spierce@spins.com curvball
+function ptable {
+   psql --pset pager --pset tuples_only -Ac '\d' $* | \
+       cut -d '|' -f 2 | \
+       fzf --preview "psql --pset pager -c 'select * from {} limit 15' -c '\d {}' $*" --preview-window right:80%
+}
+
+# Helper view gcs file using FZF
+# Example:
+#   gsutil -m ls 'gs://spins-edp-uat-incoming/**' > spins-edp-uat-incoming.lst
+#   gsfzf spins-edp-uat-incoming.lst  | head -10
+function gsfzf {
+    selected=$(cat $1 | fzf)
+    cmd="gsutil -m cp '$selected' -"
+    echo -e "\e[33m$cmd\e[0m" >> /dev/stderr
+    eval ${cmd}
+}
