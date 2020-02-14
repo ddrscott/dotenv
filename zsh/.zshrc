@@ -153,6 +153,7 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 # Thanks: https://discussions.apple.com/thread/7311015?start=0&tstart=0
 if [[ $OSTYPE == darwin* ]]; then
   defaults write -g NSUseSpellCheckerForCompletions -bool false
+  defaults write -g ApplePressAndHoldEnabled -bool false
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
