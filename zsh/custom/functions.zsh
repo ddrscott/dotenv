@@ -110,3 +110,11 @@ function gsfzf {
     echo -e "\e[33m$cmd\e[0m" >> /dev/stderr
     eval ${cmd}
 }
+
+# A slower tail -f
+# Example:
+#     cat foo | snail
+#     cat bar | snail 0.1
+function snail() {
+  awk -v s="${1:-'0.3'}" 'system("sleep " s) {exit} 1'
+}
