@@ -10,7 +10,7 @@ ln -sf "${THIS_DIR}/ag/.agignore" ~/.agignore
 ln -sf "${THIS_DIR}/screen/.screenrc" ~/.screenrc
 ln -sf "${THIS_DIR}/pry/pryrc.rb" ~/.pryrc
 
-[ -d '~/.oh-my-zsh/themes' ] && ln -sf "${THIS_DIR}/zsh/themes/ddrscott.zsh-theme" ~/.oh-my-zsh/themes/ddrscott.zsh-theme
+[ -d "$(dirname ~/.oh-my-zsh/themes)" ] && ln -sf "${THIS_DIR}/zsh/themes/ddrscott.zsh-theme" ~/.oh-my-zsh/themes/ddrscott.zsh-theme
 
 mkdir -p ~/.ptpython
 ln -sf "${THIS_DIR}/ptpython/config.py" ~/.ptpython/config.py
