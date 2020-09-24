@@ -118,3 +118,31 @@ function gsfzf {
 function snail() {
   awk -v s="${1:-'0.3'}" 'system("sleep " s) {exit} 1'
 }
+
+
+# Watch for project changes and rsync to remote destination.
+#
+# Example:
+#    entr_rsync dev-e2:~/app 
+function entr_rsync() {
+    DST=$1
+    [ -n "$DST" ] || { echo "Usage:\n  entr_rsync DESTINATION"; return 1; }
+    GLOBAL_GIT_IGNORE="$(git config --global core.excludesFile)"
+    RSYNC_CMD="rsync -avz --exclude '.git' --filter=':- .gitignore' --filter=':- ${GLOBAL_GIT_IGNORE}' . ${DST}"
+    while true; do
+        git ls-files | entr -c -d -s "${RSYNC_CMD}"
+        #    ^           ^   ^  ^  ^
+        #    |           |   |  |  |
+        #    |           |   |  |  + run shell command
+        #    |           |   |  |   
+        #    |           |   |  + track directories
+        #    |           |   |      
+        #    |           |   + clear screen before executing
+        #    |           |   |      
+        #    |           + [E]vent [N]otify [T]est [R]unner
+        #    |             http://eradman.com/entrproject/
+        #    |
+        #    + list files tracked by git
+        sleep 1
+    done
+}
