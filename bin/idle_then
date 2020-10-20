@@ -70,7 +70,7 @@ if (( idle_count >= max_idle_lines )); then
     logger -s "Max idle lines reached. Executing idle command: ${idle_cmd}"
     # clear idle log so we don't shutdown forever!
     rm ${idle_log}
-    eval $idle_cmd
+    eval "${idle_cmd}"
 else
     logger -s "${idle_count} of ${max_idle_lines} idle lines."
 fi
