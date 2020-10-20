@@ -25,7 +25,7 @@ Any arguments passed to `idle_then` is the command executed idle is detected.
 
 ## Strategy
 
-1. The script is scheduled for check for activity periodically via `crontab`.
+1. The script is scheduled to check for activity periodically via `crontab`.
 2. If zero load exists, we append to a log file.
 3. If zero load does NOT exist, we clear the log file. The machine is busy.
 4. When the log file has too many lines, we execute $idle_cmd.
