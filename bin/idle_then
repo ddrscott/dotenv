@@ -18,7 +18,7 @@ chmod +x /usr/local/bin/idle_then
 crontab -e
 
 # add the following line
-* * * * * /usr/local/bin/idle_then shutdown now
+* * * * * /usr/local/bin/idle_then /sbin/shutdown now
 ```
 
 Any arguments passed to `idle_then` is the command executed idle is detected.
@@ -70,7 +70,7 @@ if (( idle_count >= max_idle_lines )); then
     logger -s "Max idle lines reached. Executing idle command: ${idle_cmd}"
     # clear idle log so we don't shutdown forever!
     rm ${idle_log}
-    eval "${idle_cmd}"
+    logger -s $(eval "${idle_cmd}" 2>&1)
 else
     logger -s "${idle_count} of ${max_idle_lines} idle lines."
 fi
