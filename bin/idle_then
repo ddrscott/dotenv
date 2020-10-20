@@ -8,7 +8,7 @@ This script will execute a command when it detects low cpu activity for X interv
 ### Install `idle_then` Script
 
 ```sh
-curl -L https://github.com/ddrscott/ddrscott/raw/master/bin/idle_then | tee /usr/local/bin/idle_then
+curl -L https://raw.githubusercontent.com/ddrscott/ddrscott/master/bin/idle_then | tee /usr/local/bin/idle_then
 chmod +x /usr/local/bin/idle_then
 ```
 
