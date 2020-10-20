@@ -1,0 +1,76 @@
+#!/bin/bash -e
+
+: <<'DOCS'
+This script will execute a command when it detects low cpu activity for X intervals.
+
+## Usage
+
+### Install `idle_then` Script
+
+```sh
+curl -L https://github.com/ddrscott/ddrscott/raw/master/bin/idle_then | tee /usr/local/bin/idle_then
+chmod +x /usr/local/bin/idle_then
+```
+
+### Schedule `idle_then` Script
+
+```sh
+crontab -e
+
+# add the following line
+* * * * * /usr/local/bin/idle_then shutdown now
+```
+
+Any arguments passed to `idle_then` is the command executed idle is detected.
+
+## Strategy
+
+1. The script is scheduled for check for activity periodically via `crontab`.
+2. If zero load exists, we append to a log file.
+3. If zero load does NOT exist, we clear the log file. The machine is busy.
+4. When the log file has too many lines, we execute $idle_cmd.
+
+Therefore, anytime activity is detected, the idle timer is reset, and the
+`idle_cmd` will never fire.
+
+By scheduling every minute and setting $max_idle_lines to 15,
+`$idle_cmd` will execute after 15 minutes of zero load activity.
+
+All activity is logged to `/var/log/syslog` via `logger` command.
+DOCS
+
+# What to do when max_idle_lines is reached
+# Defaults to any arguments passed to the script.
+# If no arguments are passed, then defaults to:
+#     gcloud compute instance stop {current_instance}
+: "${idle_cmd:=$*}"
+
+# Max idle depends on how often the script is run.
+# Once we accumulate `max_idle_lines` in the log file,
+# we shutdown the system.
+: "${max_idle_lines:=15}"
+
+# The log file we'll use to write idle lines
+: "${idle_log:=/tmp/idle_then-wZdupLMyr9uMxmjs6KyYJQ.log}"
+
+idle_line=$(w | awk '/load average: 0.00/')
+
+echo "${idle_line}"
+if [ -z "$idle_line" ]; then
+    logger -s "System is busy. Resetting idle lines"
+    w | head -1 > "${idle_log}"
+    exit 0
+fi
+
+# Still idle
+echo $idle_line >> "${idle_log}"
+
+idle_count=$(wc -l $idle_log | awk '{print $1}')
+if (( idle_count >= max_idle_lines )); then
+    logger -s "Max idle lines reached. Executing idle command: ${idle_cmd}"
+    # clear idle log so we don't shutdown forever!
+    rm ${idle_log}
+    eval $idle_cmd
+else
+    logger -s "${idle_count} of ${max_idle_lines} idle lines."
+fi
