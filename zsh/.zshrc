@@ -94,7 +94,7 @@ export KEYTIMEOUT=20
 export EDITOR='/usr/local/bin/nvim'
 export ECLIPSE_HOME=/Applications/Eclipse.app/Contents/Eclipse
 
-[ -f /usr/libexec/java_home ] && export JAVA_HOME="$(/usr/libexec/java_home -v 13)"
+[ -f /usr/libexec/java_home ] && export JAVA_HOME="$(/usr/libexec/java_home -v 12)"
 
 export AWS_REGION='us-east-1'
 
@@ -157,6 +157,7 @@ if [[ $OSTYPE == darwin* ]]; then
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
 export PATH="/usr/local/opt/llvm@5/bin:$PATH"
 export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
 export PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH"
@@ -168,10 +169,11 @@ export PATH=$PATH:~/bin:./bin:./exe:~/.local/bin
 
 # kubernetes completion
 if [ -x /usr/bin/kubectl ]; then source <(kubectl completion zsh); fi
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+ 
+if [ type rustc >/dev/null 2>&1 ]; then
+  export PATH=$PATH:~/.cargo/bin
+  export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+fi
 
 # If interactive, not already in Tmux, and tmux installed try to attach to it
 export TMUX_SESSION_PATH=/tmp/pair
@@ -194,5 +196,3 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-#export KUBECONFIG=~/.kube/k3s-m1
