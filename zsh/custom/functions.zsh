@@ -146,3 +146,11 @@ function entr_rsync() {
         sleep 1
     done
 }
+
+# function dot_when() {
+#   while true; do
+#     curl -s http://192.168.86.1/api/v1/status \
+#       | grep online \
+#       | awk -v pat="${1:-'true'}" '$0 ~ pat {printf("\033[32m.\033[0m")} $0 !~ pat {printf("\033[31m!\033[0m")}'
+#   done
+# }

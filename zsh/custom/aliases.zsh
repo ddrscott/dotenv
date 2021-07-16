@@ -24,6 +24,8 @@ alias dark=base16_ocean
 alias dict='cat /usr/share/dict/words | fzf --preview "open -g dict://{}; echo See Dictionary.app"'
 
 alias pbc='pbpaste | pbcopy'
+
+alias bqq='tee /dev/stderr | time bq query --nouse_legacy_sql'
 # alias python=python3
 # alias pip=pip3
 # alias py=python2
