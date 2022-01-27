@@ -19,13 +19,13 @@ case ${SOLARIZED_THEME:-dark} in
 esac
 
 ZSH_THEME_GIT_PROMPT_PREFIX=" [%{%B%F{blue}%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{%f%k%b%K{${bkg}}%B%F{green}%}]"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{%f%k%b%B%F{green}%}]"
 ZSH_THEME_GIT_PROMPT_DIRTY=" %{%F{red}%}*%{%f%k%b%}"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
 PROMPT='%{%f%k%b%}
-%{%K{${bkg}}%B%F{green}%}%n%{%B%F{blue}%}%{%B%F{green}%}%{$fg[white]%}@%M %{%b%F{yellow}%K{${bkg}}%}%~%{%B%F{green}%}$(git_prompt_info)%E%{%f%k%b%}
-%{%K{${bkg}}%}$(_prompt_char)%{%K{${bkg}}%}%#%{%f%k%b%} '
+%{%B%F{green}%}┌ %n%{$fg[white]%}@%{%B%F{green}%}%M %{%b%F{yellow}%}%~%{%B%F{green}%}$(git_prompt_info)%E%{%f%k%b%}
+%{%B%F{green}%}└ $(_prompt_char)%#%{%f%k%b%} '
 
 # Hide due to excessive whitespace during copy/paste
 # RPROMPT='!%{%B%F{cyan}%}%!%{%f%k%b%}'
