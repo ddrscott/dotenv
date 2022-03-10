@@ -113,7 +113,7 @@ fi
 export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig
 
 # FZF Stuff
-export FZF_DEFAULT_COMMAND='ag -g "" --hidden'
+export FZF_DEFAULT_COMMAND='rg -l . --hidden'
 export FZF_HIGHLIGHT_PREVIEW_OPTS="--height 100% --preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null' --preview-window=right:60%"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--delimiter '/' --nth=-1 $FZF_HIGHLIGHT_PREVIEW_OPTS"
@@ -195,3 +195,4 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+#export KUBECONFIG=~/.kube/k3s-m1
