@@ -54,6 +54,8 @@ plugins=(git fancy-ctrl-z rake-fast dotenv docker kubectl thor)
 
 source $ZSH/oh-my-zsh.sh
 
+unsetopt auto_cd
+
 # User configuration
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export PATH="/usr/local/sbin:$PATH"
