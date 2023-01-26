@@ -45,6 +45,7 @@ COMPLETION_WAITING_DOTS="true"
 
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM=~/ddrscott/zsh/custom
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -57,9 +58,9 @@ source $ZSH/oh-my-zsh.sh
 unsetopt auto_cd
 
 # User configuration
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-export PATH="/usr/local/sbin:$PATH"
-export PATH=$PATH:./node_modules/.bin
+# export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+# export PATH="/usr/local/sbin:$PATH"
+# export PATH=$PATH:./node_modules/.bin
 # export PATH=$PATH:~/Library/Python/3.5/bin
 # export PATH=$PATH:~/Library/Python/2.7/bin
 
@@ -114,16 +115,6 @@ fi
 # Crystal Stuff
 export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig
 
-# FZF Stuff
-export FZF_DEFAULT_COMMAND='rg -l . --hidden'
-export FZF_HIGHLIGHT_PREVIEW_OPTS="--height 100% --preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null' --preview-window=right:60%"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS="--delimiter '/' --nth=-1 $FZF_HIGHLIGHT_PREVIEW_OPTS"
-export FZF_CTRL_R_COMMAND=$FZF_DEFAULT_COMMAND
-#export FZF_CTRL_R_OPTS="--sort --exact --height 100% --preview 'echo {} | cut -d \" \" -f2' --preview-window=up:40%"
-export FZF_CTRL_R_OPTS="--exact --height 100%"
-
-
 #export FZF_DEFAULT_OPTS='--exact'
 #export LOG_SRC=true
 export GRADLE_OPTS=-Dorg.gradle.daemon=true
@@ -139,8 +130,6 @@ export v=~/.config/nvim/
 # Codesign
 export CODESIGN_APP_CNAME='Developer ID Application: Scott Pierce (DH6NDWAQQ2)'
 export CODESIGN_INSTALL_CNAME='Developer ID Installer: Scott Pierce (DH6NDWAQQ2)'
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 type git >/dev/null 2>&1 && git config --global web.browser open
 
@@ -169,9 +158,6 @@ type rbenv >/dev/null 2>&1 && eval "$(rbenv init -)"
 # Put custom bin paths ahead of everything
 export PATH=$PATH:~/bin:./bin:./exe:~/.local/bin
 
-# kubernetes completion
-if [ -x /usr/bin/kubectl ]; then source <(kubectl completion zsh); fi
- 
 if [ type rustc >/dev/null 2>&1 ]; then
   export PATH=$PATH:~/.cargo/bin
   export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
@@ -181,20 +167,20 @@ fi
 export TMUX_SESSION_PATH=/tmp/pair
 [ -n "$PS1" ] && [ -z "$TMUX" ] && type tmux >/dev/null 2>&1 && [ -f $TMUX_SESSION_PATH ] && tmux -S $TMUX_SESSION_PATH attach
 
-[ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
-[ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/usr/local/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/Users/spierce/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/usr/local/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
-        . "/usr/local/Caskroom/miniconda/base/etc/profile.d/conda.sh"
+    if [ -f "/Users/spierce/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/spierce/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/usr/local/Caskroom/miniconda/base/bin:$PATH"
+        export PATH="/Users/spierce/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

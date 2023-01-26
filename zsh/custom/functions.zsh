@@ -128,7 +128,7 @@ function entr_rsync() {
     DST=$1
     [ -n "$DST" ] || { echo "Usage:\n  entr_rsync DESTINATION"; return 1; }
     GLOBAL_GIT_IGNORE="$(git config --global core.excludesFile)"
-    RSYNC_CMD="rsync -avz --exclude '.git' --filter=':- .gitignore' --filter=':- ${GLOBAL_GIT_IGNORE}' . ${DST}"
+    RSYNC_CMD="rsync -avz --max-size=100m --exclude '.git' --filter=':- .gitignore' --filter=':- ${GLOBAL_GIT_IGNORE}' . ${DST}"
     while true; do
         git ls-files | entr -c -d -s "${RSYNC_CMD}"
         #    ^           ^   ^  ^  ^
