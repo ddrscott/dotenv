@@ -1,7 +1,14 @@
-# Based on https://github.com/conda/conda/issues/7855#issuecomment-456085432
-# This forces to conda's to setup everytime.
-if [ -f "/usr/local/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
-  . "/usr/local/Caskroom/miniconda/base/etc/profile.d/conda.sh"
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/spierce/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
 else
-  export PATH="/usr/local/Caskroom/miniconda/base/bin:$PATH"
+    if [ -f "/Users/spierce/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/spierce/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/spierce/miniconda3/bin:$PATH"
+    fi
 fi
+unset __conda_setup
+# <<< conda initialize <<<

@@ -45,13 +45,13 @@ COMPLETION_WAITING_DOTS="true"
 
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM=~/ddrscott/zsh/custom
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$PATH"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git fancy-ctrl-z rake-fast dotenv docker kubectl thor)
+plugins=(git fancy-ctrl-z rake-fast docker kubectl thor)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -94,7 +94,7 @@ unsetopt auto_cd
 
 export KEYTIMEOUT=20
 
-export EDITOR='/usr/local/bin/nvim'
+export EDITOR=vim
 export ECLIPSE_HOME=/Applications/Eclipse.app/Contents/Eclipse
 
 [ -f /usr/libexec/java_home ] && export JAVA_HOME="$(/usr/libexec/java_home -v 12)"
@@ -184,3 +184,12 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# bun completions
+[ -s "/Users/spierce/.bun/_bun" ] && source "/Users/spierce/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+export GPG_TTY=$(tty)
