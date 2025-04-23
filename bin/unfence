@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+import os
+import sys
+from typing import List, Tuple
+
+def process_file_blocks(lines: List[str]) -> List[Tuple[str, str, int]]:
+    """
+    Process input text containing file blocks in the format:
+    [FILE path/to/file]
+    (optional) ```language
+    content
+    (optional) ```
+    [/FILE]
+
+    Returns a list of tuples: (file_path, content, line_number)
+    """
+    result = []
+    i = 0
+
+    while i < len(lines):
+        line = lines[i].rstrip()
+
+        # Look for file block start
+        if line.startswith('[FILE ') and line.endswith(']'):
+            line_number = i + 1
+            file_path = line[6:-1].strip()
+            i += 1
+
+            # Check if there's an opening code fence (optional)
+            if i < len(lines) and lines[i].strip().startswith('```'):
+                i += 1  # Skip the fence line
+
+            # Collect content lines
+            content_lines = []
+
+            # Continue until we find [/FILE] or a closing fence followed by [/FILE]
+            while i < len(lines):
+                current_line = lines[i].strip()
+
+                # Check for closing patterns
+                if current_line == '[/FILE]':
+                    # No closing fence, just the end tag
+                    break
+                elif (current_line == '```' and
+                      i + 1 < len(lines) and
+                      lines[i + 1].strip() == '[/FILE]'):
+                    # Closing fence followed by end tag
+                    i += 1  # Skip the fence line
+                    break
+
+                content_lines.append(lines[i].rstrip())
+                i += 1
+
+            if i >= len(lines):
+                print(f"Warning: Missing [/FILE] marker for file block at line {line_number}", file=sys.stderr)
+                break
+
+            # Skip [/FILE]
+            i += 1
+
+            content = '\n'.join(content_lines)
+            result.append((file_path, content, line_number))
+
+        else:
+            i += 1
+
+    return result
+
+def main():
+    # Read input from file or stdin
+    if len(sys.argv) > 1:
+        try:
+            with open(sys.argv[1], 'r') as f:
+                input_lines = f.readlines()
+        except FileNotFoundError:
+            print(f"Error: Input file '{sys.argv[1]}' not found", file=sys.stderr)
+            sys.exit(1)
+    else:
+        input_lines = sys.stdin.readlines()
+
+    file_blocks = process_file_blocks(input_lines)
+
+    for file_path, content, line_number in file_blocks:
+        # Create directory if needed
+        directory = os.path.dirname(file_path)
+        if directory:
+            try:
+                os.makedirs(directory, exist_ok=True)
+            except OSError as e:
+                print(f"Error: Could not create directory '{directory}': {e}", file=sys.stderr)
+                continue
+
+        # Write content to file
+        try:
+            with open(file_path, 'w') as f:
+                f.write(content)
+            byte_count = len(content.encode('utf-8'))
+            print(f"Processed: {file_path} (from line {line_number}, {byte_count} bytes written)")
+        except OSError as e:
+            print(f"Error: Could not write to '{file_path}': {e}", file=sys.stderr)
+
+    if not file_blocks:
+        print("No file blocks found in input", file=sys.stderr)
+
+if __name__ == "__main__":
+    main()

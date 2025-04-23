@@ -154,3 +154,7 @@ function entr_rsync() {
 #       | awk -v pat="${1:-'true'}" '$0 ~ pat {printf("\033[32m.\033[0m")} $0 !~ pat {printf("\033[31m!\033[0m")}'
 #   done
 # }
+#
+notify() {
+    osascript -e "display notification \"$1\" with title \"Shell Notify\""
+}

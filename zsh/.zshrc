@@ -51,7 +51,7 @@ export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$PATH"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git fancy-ctrl-z rake-fast docker kubectl thor)
+plugins=(git dotenv fancy-ctrl-z rake-fast docker kubectl thor)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -168,21 +168,6 @@ export TMUX_SESSION_PATH=/tmp/pair
 [ -n "$PS1" ] && [ -z "$TMUX" ] && type tmux >/dev/null 2>&1 && [ -f $TMUX_SESSION_PATH ] && tmux -S $TMUX_SESSION_PATH attach
 
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/spierce/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/spierce/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/spierce/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/spierce/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # bun completions
@@ -193,3 +178,11 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 export GPG_TTY=$(tty)
+
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+fpath+=~/.zfunc
+
+. "$HOME/.cargo/env"
+
+. "$HOME/.local/bin/env"
