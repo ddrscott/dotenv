@@ -26,7 +26,7 @@ alias dict='cat /usr/share/dict/words | fzf --preview "open -g dict://{}; echo S
 alias pbc='pbpaste | pbcopy'
 
 alias bqq='tee /dev/stderr | time bq query --nouse_legacy_sql'
-# alias python=python3
+alias python=python3
 # alias pip=pip3
 # alias py=python2
 # alias py3='python3 -q -Xfaulthandler'

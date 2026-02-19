@@ -1,0 +1,10 @@
+#!/bin/bash
+# recent - find recently modified files, sorted by time
+
+fd . "${1:-$HOME}" --type f --hidden \
+  --exclude .git \
+  --exclude node_modules \
+  --exclude Library \
+  --exclude 'Application Support' \
+  --changed-within "${2:-7d}" \
+  --exec stat -f '%m %N' {} \; | sort -rn | cut -d' ' -f2-

@@ -3,11 +3,14 @@
 My dot files
 
 ## Installation
-```sh
-# clone project
-git clone https://github.com/ddrscott/ddrscott.git
 
-# link all the files
+```sh
+curl -fsSL https://raw.githubusercontent.com/ddrscott/ddrscott/master/install.sh | sh
+```
+
+Or manually:
+```sh
+git clone https://github.com/ddrscott/ddrscott.git
 ./ddrscott/install.sh
 ```
 

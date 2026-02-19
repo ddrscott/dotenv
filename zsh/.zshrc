@@ -1,3 +1,5 @@
+# Add deno completions to search path
+if [[ ":$FPATH:" != *":/Users/spierce/.zsh/completions:"* ]]; then export FPATH="/Users/spierce/.zsh/completions:$FPATH"; fi
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -102,9 +104,9 @@ export ECLIPSE_HOME=/Applications/Eclipse.app/Contents/Eclipse
 export AWS_REGION='us-east-1'
 
 export GOPATH=$HOME/golang
-export GOROOT=/usr/local/opt/go/libexec
+# GOROOT is automatically detected by Go, no need to set it
 export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:$GOROOT/bin
+export PATH=$PATH:/opt/homebrew/bin
 
 # Rust Stuff
 if [ type rustc >/dev/null 2>&1 ]; then
@@ -186,3 +188,7 @@ fpath+=~/.zfunc
 . "$HOME/.cargo/env"
 
 . "$HOME/.local/bin/env"
+. "/Users/spierce/.deno/env"
+# Initialize zsh completions (added by deno install script)
+autoload -Uz compinit
+compinit

@@ -158,3 +158,30 @@ function entr_rsync() {
 notify() {
     osascript -e "display notification \"$1\" with title \"Shell Notify\""
 }
+
+recent() {
+  fd . "${1:-$HOME}" --type f \
+    --exclude .git \
+    --exclude node_modules \
+    --exclude Library \
+    --exclude 'Application Support' \
+    --exclude 'Photos Library.photoslibrary' \
+    --exclude 'TV Library.tvlibrary' \
+    --exclude 'Downloads' \
+    --changed-within "${2:-7d}" \
+    --exec stat -f '%m %N' {} \; | sort -rn | cut -d' ' -f2-
+}
+
+# Run claude with --dangerously-skip-permissions, joining all args as prompt.
+# Because sometimes you just gotta send it.
+#
+# Example:
+#   yolo                           # interactive mode
+#   yolo fix the build errors      # with prompt
+yolo() {
+  if [ $# -eq 0 ]; then
+    claude --dangerously-skip-permissions
+  else
+    claude --dangerously-skip-permissions -p "$*"
+  fi
+}

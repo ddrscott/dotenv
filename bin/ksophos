@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Continuously kill Sophos processes.
+# Because sometimes antivirus is the real virus.
+#
+# Usage:
+#   sudo ksophos
+
+watch -n 0.1 'bash -c "pkill -9 -l -f ophos"'
