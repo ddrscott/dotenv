@@ -36,7 +36,11 @@ fi
 
 echo "Installing dotfiles from $THIS_DIR..."
 
-ln -sf "$THIS_DIR" ~/ddrscott
+# Only create symlink if THIS_DIR is not already ~/ddrscott
+if [ "$THIS_DIR" != "$HOME/ddrscott" ]; then
+    rm -f ~/ddrscott 2>/dev/null || true
+    ln -sf "$THIS_DIR" ~/ddrscott
+fi
 ln -sf "$THIS_DIR/zsh/.zshrc" ~/.zshrc
 ln -sf "$THIS_DIR/tmux.conf" ~/.tmux.conf
 ln -sf "$THIS_DIR/rg/.rgignore" ~/.rgignore
@@ -52,5 +56,14 @@ fi
 
 mkdir -p ~/.ptpython
 ln -sf "$THIS_DIR/ptpython/config.py" ~/.ptpython/config.py
+
+# base16-shell for terminal color schemes
+if [ -d ~/.config/base16-shell ]; then
+    echo "Updating base16-shell..."
+    git -C ~/.config/base16-shell pull --ff-only
+else
+    echo "Installing base16-shell..."
+    git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+fi
 
 echo "Done! Restart your shell or run: source ~/.zshrc"
