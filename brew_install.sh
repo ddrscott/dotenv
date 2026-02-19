@@ -1,52 +1,53 @@
 #!/bin/bash -ev
-brew install --cask android-platform-tools \
-audacity \
-dbeaver-community \
-fork \
-google-cloud-sdk \
-handbrake \
-imageoptim \
-krita \
-licecap \
-miniconda \
-obs \
-slack \
-sourcetree \
-spectacle \
-vivaldi \
-vlc
+# Updated: 2025-02
+# Casks (GUI apps)
+brew install --cask \
+  android-platform-tools \
+  dbeaver-community \
+  fork \
+  google-cloud-sdk \
+  handbrake \
+  imageoptim \
+  obs \
+  rectangle \
+  slack \
+  vivaldi \
+  vlc
 
-brew install the_silver_searcher \
-asciinema \
-awk \
-coreutils \
-entr \
-ffmpeg \
-fswatch \
-go \
-gradle \
-kubectl \
-helm \
-htop \
-imagemagick \
-jq \
-kind \
-maven \
-mono \
-neovim \
-pv \
-rar \
-ripgrep \
-rust \
-scrcpy \
-sox \
-telnet \
-tmux \
-tree \
-watch \
-wget \
-wxmac \
-wxpython
+# CLI tools
+brew install \
+  asciinema \
+  bat \
+  coreutils \
+  delta \
+  entr \
+  eza \
+  fd \
+  ffmpeg \
+  fswatch \
+  fzf \
+  go \
+  htop \
+  imagemagick \
+  jq \
+  kubectl \
+  helm \
+  kind \
+  neovim \
+  pv \
+  ripgrep \
+  rustup \
+  scrcpy \
+  sox \
+  telnet \
+  tmux \
+  tree \
+  uv \
+  watch \
+  wget \
+  zoxide
 
-brew tap heroku/brew && brew install heroku
+# Optional: uncomment if needed
+# brew install gradle maven mono
+
 brew install hashicorp/tap/terraform

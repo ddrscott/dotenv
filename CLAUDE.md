@@ -19,7 +19,7 @@ curl -fsSL https://raw.githubusercontent.com/ddrscott/ddrscott/master/install.sh
 The install script symlinks:
 - `zsh/.zshrc` → `~/.zshrc`
 - `tmux.conf` → `~/.tmux.conf`
-- `ag/.agignore` → `~/.agignore`
+- `rg/.rgignore` → `~/.rgignore`
 - `screen/.screenrc` → `~/.screenrc`
 - `pry/pryrc.rb` → `~/.pryrc`
 - `ptpython/config.py` → `~/.ptpython/config.py`

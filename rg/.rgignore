@@ -1,0 +1,5 @@
+# Ripgrep global ignore file
+# Note: .gitignore patterns are respected by default
+
+*.js.map
+components/ui/public

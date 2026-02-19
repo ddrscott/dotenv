@@ -39,7 +39,7 @@ echo "Installing dotfiles from $THIS_DIR..."
 ln -sf "$THIS_DIR" ~/ddrscott
 ln -sf "$THIS_DIR/zsh/.zshrc" ~/.zshrc
 ln -sf "$THIS_DIR/tmux.conf" ~/.tmux.conf
-ln -sf "$THIS_DIR/ag/.agignore" ~/.agignore
+ln -sf "$THIS_DIR/rg/.rgignore" ~/.rgignore
 ln -sf "$THIS_DIR/screen/.screenrc" ~/.screenrc
 ln -sf "$THIS_DIR/pry/pryrc.rb" ~/.pryrc
 
