@@ -57,13 +57,15 @@ fi
 mkdir -p ~/.ptpython
 ln -sf "$THIS_DIR/ptpython/config.py" ~/.ptpython/config.py
 
-# base16-shell for terminal color schemes
-if [ -d ~/.config/base16-shell ]; then
-    echo "Updating base16-shell..."
-    git -C ~/.config/base16-shell pull --ff-only
+# tinted-shell for terminal color schemes (successor to base16-shell)
+TINTED_SHELL_DIR="$HOME/.config/tinted-theming/tinted-shell"
+if [ -d "$TINTED_SHELL_DIR" ]; then
+    echo "Updating tinted-shell..."
+    git -C "$TINTED_SHELL_DIR" pull --ff-only
 else
-    echo "Installing base16-shell..."
-    git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+    echo "Installing tinted-shell..."
+    mkdir -p "$HOME/.config/tinted-theming"
+    git clone https://github.com/tinted-theming/tinted-shell.git "$TINTED_SHELL_DIR"
 fi
 
 echo "Done! Restart your shell or run: source ~/.zshrc"

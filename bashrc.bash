@@ -13,10 +13,10 @@ export HISTFILE=~/.bash_eternal_history
 # http://superuser.com/questions/20900/bash-history-loss
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
-BASE16_SHELL="$HOME/.config/base16-shell/"
+TINTED_SHELL="$HOME/.config/tinted-theming/tinted-shell"
 [ -n "$PS1" ] && \
-  [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-  eval "$("$BASE16_SHELL/profile_helper.sh")"
+  [ -s "$TINTED_SHELL/profile_helper.sh" ] && \
+  eval "$("$TINTED_SHELL/profile_helper.sh")"
 
 
 if [ "$TERM" = "cygwin" ]
