@@ -42,8 +42,7 @@ fi
 have rclone || curl -fsSL https://rclone.org/install.sh | sudo bash
 # duckdb
 if ! have duckdb; then
-  DD_ARCH=$([ "$ARCH" = arm64 ] && echo aarch64 || echo amd64)
-  curl -fsSL "https://github.com/duckdb/duckdb/releases/latest/download/duckdb_cli-linux-$DD_ARCH.zip" -o /tmp/duckdb.zip
+  curl -fsSL "https://github.com/duckdb/duckdb/releases/latest/download/duckdb_cli-linux-$ARCH.zip" -o /tmp/duckdb.zip
   unzip -oq /tmp/duckdb.zip -d "$BIN" && rm /tmp/duckdb.zip
 fi
 # yq
