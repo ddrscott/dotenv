@@ -1,0 +1,37 @@
+{
+  "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
+  "CreationDate": "2026-09-06T00:00:00.000-00:00",
+  "Sources": [
+    {
+      "SourceDetails": { "Name": "winget", "Identifier": "Microsoft.Winget.Source_8wekyb3d8bbwe", "Type": "Microsoft.PreIndexed.Package" },
+      "Packages": [
+        { "PackageIdentifier": "Microsoft.WSL" },
+        { "PackageIdentifier": "Canonical.Ubuntu.2404" },
+        { "PackageIdentifier": "Microsoft.WindowsTerminal" },
+        { "PackageIdentifier": "Microsoft.PowerToys" },
+        { "PackageIdentifier": "Git.Git" },
+        { "PackageIdentifier": "GitHub.cli" },
+        { "PackageIdentifier": "Google.Chrome" },
+        { "PackageIdentifier": "Vivaldi.Vivaldi" },
+        { "PackageIdentifier": "Microsoft.VisualStudioCode" },
+        { "PackageIdentifier": "Anthropic.Claude" },
+        { "PackageIdentifier": "SlackTechnologies.Slack" },
+        { "PackageIdentifier": "Discord.Discord" },
+        { "PackageIdentifier": "Zoom.Zoom" },
+        { "PackageIdentifier": "Obsidian.Obsidian" },
+        { "PackageIdentifier": "Logseq.Logseq" },
+        { "PackageIdentifier": "VideoLAN.VLC" },
+        { "PackageIdentifier": "OBSProject.OBSStudio" },
+        { "PackageIdentifier": "Audacity.Audacity" },
+        { "PackageIdentifier": "GIMP.GIMP" },
+        { "PackageIdentifier": "Inkscape.Inkscape" },
+        { "PackageIdentifier": "dbeaver.dbeaver" },
+        { "PackageIdentifier": "Fork.Fork" },
+        { "PackageIdentifier": "Docker.DockerDesktop" },
+        { "PackageIdentifier": "Ollama.Ollama" },
+        { "PackageIdentifier": "Flameshot.Flameshot" },
+        { "PackageIdentifier": "DEVCOM.JetBrainsMonoNerdFont" }
+      ]
+    }
+  ]
+}

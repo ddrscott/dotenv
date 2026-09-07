@@ -1,0 +1,28 @@
+#!/bin/bash
+# Installs system packages. Re-runs whenever a manifest changes:
+# Brewfile: {{ include "../packages/Brewfile" | sha256sum | trunc 12 }}
+# apt.txt: {{ include "../packages/apt.txt" | sha256sum | trunc 12 }}
+# ubuntu-extras.sh: {{ include "../packages/ubuntu-extras.sh" | sha256sum | trunc 12 }}
+# ubuntu-desktop.sh: {{ include "../packages/ubuntu-desktop.sh" | sha256sum | trunc 12 }}
+set -euo pipefail
+DOTS="{{ .chezmoi.sourceDir | dir }}"
+ROLE="{{ .role }}"
+echo "==> [10-packages] role=$ROLE"
+
+{{ if eq .chezmoi.os "darwin" -}}
+if ! command -v brew >/dev/null 2>&1; then
+  echo "==> Installing Homebrew"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+eval "$(/opt/homebrew/bin/brew shellenv)"
+brew bundle --file="$DOTS/packages/Brewfile" --no-upgrade
+{{ else if eq .chezmoi.os "linux" -}}
+export DEBIAN_FRONTEND=noninteractive
+sudo apt-get update -q
+grep -vE '^\s*(#|$)' "$DOTS/packages/apt.txt" | xargs sudo apt-get install -y -q
+bash "$DOTS/packages/ubuntu-extras.sh"
+{{ if not .wsl -}}
+if [ -d /run/systemd/system ]; then bash "$DOTS/packages/ubuntu-desktop.sh"; else echo "   no systemd (container?); skipping desktop apps"; fi
+{{ end -}}
+{{ end -}}
+echo "==> [10-packages] done"

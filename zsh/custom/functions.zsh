@@ -157,10 +157,6 @@ function entr_rsync() {
 #   done
 # }
 #
-notify() {
-    osascript -e "display notification \"$1\" with title \"Shell Notify\""
-}
-
 recent() {
   fd . "${1:-$HOME}" --type f \
     --exclude .git \

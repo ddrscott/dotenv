@@ -1,0 +1,41 @@
+#!/bin/bash
+# Background services: the ~/life R2 bisync. Skipped on WSL (lifeSync=false).
+# service: {{ include "../services/life-content-bisync.service" | sha256sum | trunc 12 }}
+# timer: {{ include "../services/life-content-bisync.timer" | sha256sum | trunc 12 }}
+# plist: {{ include "../services/com.spierce.life-content-bisync.plist" | sha256sum | trunc 12 }}
+set -euo pipefail
+DOTS="{{ .chezmoi.sourceDir | dir }}"
+echo "==> [30-services]"
+{{ if not .lifeSync -}}
+echo "   lifeSync disabled for role {{ .role }}; skipping"
+exit 0
+{{ end -}}
+
+if [ ! -x "$HOME/life/scripts/bisync-content.sh" ] || [ ! -f "$HOME/.config/rclone/rclone.conf" ]; then
+  echo "   ~/life not cloned or rclone.conf missing; re-run 'chezmoi apply' after both exist"
+  exit 0
+fi
+mkdir -p "$HOME/.cache/life-bisync"
+if [ ! -d "$HOME/life/content/p" ]; then
+  echo "   ~/life/content is empty. Seed it first (see ~/life/README.md 'First-time setup'), then re-run."
+  exit 0
+fi
+
+{{ if eq .chezmoi.os "darwin" -}}
+PLIST="$HOME/Library/LaunchAgents/com.spierce.life-content-bisync.plist"
+mkdir -p "$(dirname "$PLIST")"
+sed "s|__HOME__|$HOME|g" "$DOTS/services/com.spierce.life-content-bisync.plist" > "$PLIST"
+launchctl bootout "gui/$(id -u)/com.spierce.life-content-bisync" 2>/dev/null || true
+launchctl bootstrap "gui/$(id -u)" "$PLIST"
+echo "   launchd agent loaded"
+{{ else -}}
+[ -d /run/systemd/system ] || { echo "   no systemd; skipping timer"; exit 0; }
+UNITS="$HOME/.config/systemd/user"; mkdir -p "$UNITS"
+sed "s|__HOME__|$HOME|g" "$DOTS/services/life-content-bisync.service" > "$UNITS/life-content-bisync.service"
+cp "$DOTS/services/life-content-bisync.timer" "$UNITS/life-content-bisync.timer"
+systemctl --user daemon-reload
+systemctl --user enable --now life-content-bisync.timer
+loginctl enable-linger "$USER" 2>/dev/null || true   # keep the timer alive without a login session
+echo "   systemd user timer enabled"
+{{ end -}}
+echo "==> [30-services] done"

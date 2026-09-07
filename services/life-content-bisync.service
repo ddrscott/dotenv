@@ -1,0 +1,10 @@
+[Unit]
+Description=Bisync ~/life/content with R2
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh __HOME__/life/scripts/bisync-content.sh
+StandardOutput=append:__HOME__/.cache/life-bisync/launchd-stdout.log
+StandardError=append:__HOME__/.cache/life-bisync/launchd-stderr.log

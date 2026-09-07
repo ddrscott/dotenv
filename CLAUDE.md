@@ -1,74 +1,33 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Scott Pierce's dotfiles, managed by chezmoi. Bootstraps macOS, Ubuntu, and WSL. See README.md for the install flow and layout.
 
-## Overview
+## How chezmoi is wired here
 
-This is Scott Pierce's personal dotfiles repository. It manages shell configuration, editor settings, and development tools for macOS via symlinks.
+- `.chezmoiroot` points the source state at `home/`. Everything outside `home/` (zsh/custom, packages/, services/, bin/) is plain repo content that scripts and `~/.zshrc` reference by path.
+- The chezmoi `sourceDir` is `~/ddrscott` (set in `home/.chezmoi.toml.tmpl`), so `chezmoi cd` lands in the repo root.
+- Templates get `.role` (`mac` | `ubuntu` | `wsl`), `.wsl`, `.lifeSync`, `.cloneCode` from the config template.
+- `run_onchange_*` scripts embed a `sha256sum` of the manifest they consume, so changing a manifest re-runs the script on next `chezmoi apply`. `run_once_*` runs a single time per machine.
+- Secrets are `encrypted_*.age` files. Adding one: `chezmoi add --encrypt <path>`. Never commit plaintext keys; `home/.chezmoiignore` skips encrypted targets when `~/.config/chezmoi/key.txt` is absent.
 
-## Installation
+## Editing rules
+
+- Dotfiles that chezmoi manages (`~/.zshrc`, `~/.tmux.conf`, kitty.conf, ...) are edited in `home/` and applied. Do not edit the target in `$HOME`; the next apply overwrites it.
+- `~/.zshrc` source is `home/dot_zshrc.tmpl`. Keep macOS-only lines inside `{{ if eq .chezmoi.os "darwin" }}` blocks. Cross-platform shims (`open`, `pbcopy`, `notify`, `fd`/`bat` aliases) live in `zsh/custom/001-os.zsh`, not in the template.
+- `zsh/custom/` files are sourced straight from the repo (`ZSH_CUSTOM` points here). Numbered prefixes order them: `000-brew`, `001-os`, ..., `z998-local`, `z999-dotenv`.
+- New packages go in the manifest, not in a script: `packages/Brewfile` (mac), `packages/apt.txt` (Ubuntu, apt-available), `packages/ubuntu-extras.sh` (needs a third-party repo or installer), `packages/ubuntu-desktop.sh` (GUI, native Ubuntu only), `packages/winget.json` (Windows GUI).
+- Local secrets go in `~/.zsh/local.zsh` and are re-added with `chezmoi add --encrypt ~/.zsh/local.zsh` after editing.
+
+## Verify before committing
 
 ```sh
-# One-liner for new machines
-curl -fsSL https://raw.githubusercontent.com/ddrscott/ddrscott/master/install.sh | sh
-
-# Or run locally after cloning
-./install.sh
+chezmoi doctor
+chezmoi diff
+chezmoi execute-template < home/run_onchange_before_10-packages.sh.tmpl | bash -n
 ```
 
-The install script symlinks:
-- `zsh/.zshrc` → `~/.zshrc`
-- `tmux.conf` → `~/.tmux.conf`
-- `rg/.rgignore` → `~/.rgignore`
-- `screen/.screenrc` → `~/.screenrc`
-- `pry/pryrc.rb` → `~/.pryrc`
-- `ptpython/config.py` → `~/.ptpython/config.py`
-- `zsh/themes/ddrscott.zsh-theme` → `~/.oh-my-zsh/themes/`
+## Notable shell functions (zsh/custom/functions.zsh)
 
-## Architecture
-
-### ZSH Configuration
-
-The shell config uses oh-my-zsh with a custom folder structure:
-
-- `zsh/.zshrc` - Main entry point, sets `ZSH_CUSTOM=~/ddrscott/zsh/custom`
-- `zsh/custom/` - All custom configurations (auto-loaded by oh-my-zsh)
-  - Files prefixed with numbers load in order (e.g., `000-brew.zsh` first)
-  - `z999-dotenv.zsh` loads last
-  - `local.zsh` - Local secrets/keys (gitignored)
-- `zsh/themes/ddrscott.zsh-theme` - Custom prompt theme
-
-### Key Custom Files
-
-- `aliases.zsh` - Shell aliases (vim→nvim, git shortcuts, fzf integrations)
-- `functions.zsh` - Utility functions (httpd, spell, dic, syn, ptable, yolo)
-- `fzf.zsh` - FZF configuration
-- `gpt.zsh` - AI/GPT related helpers
-- `conda.zsh`, `nvm.zsh`, `ruby.zsh` - Language version managers
-
-### Notable Functions
-
-- `yolo` - Run claude with `--dangerously-skip-permissions`
-- `recent [dir] [timeframe]` - Find recently modified files using fd
-- `entr_rsync DESTINATION` - Watch for changes and rsync to remote
-- `ptable` - Browse Postgres tables with FZF
-- `spell`, `dic`, `syn` - Dictionary/thesaurus lookups via FZF and wordnet
-
-### Environment Variables
-
-Path shortcuts defined in `.zshrc`:
-- `$c` → `~/code/`
-- `$n` → `~/notes/`
-- `$v` → `~/.config/nvim/`
-
-### bin/ Directory
-
-Custom scripts added to PATH via `~/bin`. Notable:
-- `unfence` - Code fence extraction utility
-
-## Conventions
-
-- Store local/secret environment variables in `zsh/custom/local.zsh` (gitignored)
-- Numbered prefixes on zsh custom files control load order
-- Tmux uses `Ctrl-a` as secondary prefix (in addition to default `Ctrl-b`)
-- Editor defaults to neovim (`vim`, `vi`, `v` all alias to `nvim`)
+- `yolo` / `rolo` – claude with permissions skipped (rolo via relay)
+- `wa`, `ask` – claude one-shots piped through `zsh/custom/claude-stream-fmt`
+- `recent [dir] [timeframe]`, `entr_rsync DEST`, `ptable`, `spell`, `dic`, `syn`

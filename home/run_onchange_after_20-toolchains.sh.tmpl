@@ -1,0 +1,56 @@
+#!/bin/bash
+# Language runtimes and global CLI tools that live outside the OS package manager.
+# npm-globals.txt: {{ include "../packages/npm-globals.txt" | sha256sum | trunc 12 }}
+# uv-tools.txt: {{ include "../packages/uv-tools.txt" | sha256sum | trunc 12 }}
+set -euo pipefail
+DOTS="{{ .chezmoi.sourceDir | dir }}"
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.bun/bin:$PATH"
+[ -d /opt/homebrew/bin ] && export PATH="/opt/homebrew/bin:$PATH"
+echo "==> [20-toolchains]"
+
+# oh-my-zsh + our theme (the theme must be a symlink into the repo so edits stay live)
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+ln -sf "$DOTS/zsh/themes/ddrscott.zsh-theme" "$HOME/.oh-my-zsh/themes/ddrscott.zsh-theme"
+
+# tinted-shell (terminal color schemes)
+TINTED="$HOME/.config/tinted-theming/tinted-shell"
+if [ -d "$TINTED" ]; then git -C "$TINTED" pull -q --ff-only || true
+else mkdir -p "$(dirname "$TINTED")"; git clone -q https://github.com/tinted-theming/tinted-shell.git "$TINTED"; fi
+
+# uv (Python) — brew on mac, installer on linux
+command -v uv >/dev/null 2>&1 || curl -LsSf https://astral.sh/uv/install.sh | sh
+uv python install 3.13 --quiet || true
+grep -vE '^\s*(#|$)' "$DOTS/packages/uv-tools.txt" | while read -r tool; do
+  uv tool install -q "$tool" 2>/dev/null || uv tool upgrade -q "$tool" || echo "   ! uv tool $tool failed"
+done
+
+# nvm + node 22 + npm globals
+export NVM_DIR="$HOME/.nvm"
+if [ ! -s "$NVM_DIR/nvm.sh" ]; then
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | PROFILE=/dev/null bash
+fi
+. "$NVM_DIR/nvm.sh"
+nvm install 22 >/dev/null && nvm alias default 22 >/dev/null
+grep -vE '^\s*(#|$)' "$DOTS/packages/npm-globals.txt" | xargs npm install -g --silent
+
+# rust (brew provides rustup on mac; on linux use the installer)
+command -v rustup >/dev/null 2>&1 || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
+rustup default stable >/dev/null 2>&1 || rustup-init -y --no-modify-path >/dev/null 2>&1 || true
+
+# bun, deno
+command -v bun  >/dev/null 2>&1 || curl -fsSL https://bun.sh/install | bash
+command -v deno >/dev/null 2>&1 || curl -fsSL https://deno.land/install.sh | sh -s -- --no-modify-path
+
+# ruby via rbenv (mac: brew rbenv; linux: git install)
+if ! command -v rbenv >/dev/null 2>&1 && [ ! -d "$HOME/.rbenv" ]; then
+  git clone -q https://github.com/rbenv/rbenv.git "$HOME/.rbenv"
+  git clone -q https://github.com/rbenv/ruby-build.git "$HOME/.rbenv/plugins/ruby-build"
+fi
+
+{{ if eq .chezmoi.os "linux" -}}
+# ollama on linux (mac uses the Ollama.app download)
+command -v ollama >/dev/null 2>&1 || curl -fsSL https://ollama.com/install.sh | sh
+{{ end -}}
+echo "==> [20-toolchains] done"

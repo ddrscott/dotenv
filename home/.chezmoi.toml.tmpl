@@ -1,0 +1,21 @@
+{{- /* Rendered once by `chezmoi init`; result lands in ~/.config/chezmoi/chezmoi.toml */ -}}
+{{- $osrelease := index .chezmoi.kernel "osrelease" | default "" -}}
+{{- $wsl := and (eq .chezmoi.os "linux") (contains "microsoft" (lower $osrelease)) -}}
+{{- $role := "mac" -}}
+{{- if $wsl }}{{ $role = "wsl" }}{{ else if eq .chezmoi.os "linux" }}{{ $role = "ubuntu" }}{{ end -}}
+{{- /* CLONE_CODE=1 sh install.sh  (or edit cloneCode in ~/.config/chezmoi/chezmoi.toml later) */ -}}
+{{- $cloneCode := ne (env "CLONE_CODE" | default "0") "0" -}}
+
+sourceDir = {{ .chezmoi.sourceDir | dir | quote }}
+encryption = "age"
+
+[age]
+    identity = "~/.config/chezmoi/key.txt"
+    recipient = "age1r8adfpvf2wkktpuzv7r6ymcsx3h39ecj34hctxmvldft2x2ue9fspx42mm"
+
+[data]
+    role = {{ $role | quote }}
+    wsl = {{ $wsl }}
+    cloneCode = {{ $cloneCode }}
+    # life bisync runs on machines that own a local mirror; WSL reads on demand instead
+    lifeSync = {{ not $wsl }}

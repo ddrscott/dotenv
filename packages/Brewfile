@@ -1,0 +1,324 @@
+tap "azure/kubelogin", "https://github.com/Azure/homebrew-kubelogin"
+tap "hashicorp/tap"
+tap "heroku/brew"
+tap "homebrew/services"
+tap "jetbrains/junie"
+tap "macos-fuse-t/cask"
+tap "microsoft/mssql-release", "https://github.com/Microsoft/homebrew-mssql-release"
+tap "stripe/stripe-cli"
+# Recompression utilities for .PNG, .MNG, .ZIP, and .GZ files
+brew "advancecomp"
+# Simple, modern, secure file encryption
+brew "age"
+# Cryptography and SSL/TLS Toolkit
+brew "openssl@3"
+# Cryptographic recipes and primitives for Python
+brew "cryptography"
+# C library SSHv1/SSHv2 client and server protocols
+brew "libssh"
+# YAML Parser
+brew "libyaml"
+# Automate deployment, configuration, and upgrading
+brew "ansible"
+# Core application library for C
+brew "glib"
+# OpenType text shaping engine
+brew "harfbuzz"
+# Development kit for the Java programming language
+brew "openjdk"
+# ANother Tool for Language Recognition
+brew "antlr"
+# Image format providing lossless and lossy compression for web images
+brew "webp"
+# New file format for still image compression
+brew "jpeg-xl"
+# Codec library for encoding and decoding AV1 video streams
+brew "aom"
+# Tool for generating GNU Standards-compliant Makefiles
+brew "automake"
+# Text processing scripting language
+brew "awk"
+# Official Amazon AWS command-line interface
+brew "awscli"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.12"
+# Microsoft Azure CLI 2.0
+brew "azure-cli"
+# C library of Git core methods that is re-entrant and linkable
+brew "libgit2"
+# Clone of cat(1) with syntax highlighting and Git integration
+brew "bat"
+# Parser generator
+brew "bison"
+# Get/set bluetooth power and discoverable state
+brew "blueutil"
+# Collection of portable C++ source libraries
+brew "boost"
+# Yet Another Java Decompiler
+brew "cfr-decompiler"
+# Manage your dotfiles across multiple diverse machines, securely
+brew "chezmoi"
+# Ruby environment tool
+brew "chruby"
+# Cloudflare Tunnel client (formerly Argo Tunnel)
+brew "cloudflared"
+# Cross-platform make
+brew "cmake"
+# Linux virtual machines
+brew "lima"
+# Container runtimes on MacOS (and Linux) with minimal setup
+brew "colima", restart_service: :changed
+# GNU File, Shell, and Text utilities
+brew "coreutils"
+# Apjanke's fork of the classic cowsay project
+brew "cowsay"
+# Pack, ship and run any application as a lightweight container
+brew "docker"
+# Docker CLI plugin for extended build capabilities with BuildKit
+brew "docker-buildx"
+# Isolated development environments using Docker
+brew "docker-compose"
+# Platform keystore credential helper for Docker
+brew "docker-credential-helper"
+# Embeddable SQL OLAP Database Management System
+brew "duckdb"
+# Build automation tool for the container era
+brew "earthly"
+# Run arbitrary commands when files change
+brew "entr"
+# Simple, fast and user-friendly alternative to find
+brew "fd"
+# Text mode browser and Gemini, NNTP, FTP, Gopher, Finger, and BitTorrent client
+brew "felinks"
+# Free lossless audio codec
+brew "flac"
+# Validating, recursive, caching DNS resolver
+brew "unbound"
+# Library for JPEG-2000 image manipulation
+brew "openjpeg"
+# Image processing and image analysis library
+brew "leptonica"
+# Cryptographic & SSL/TLS library
+brew "mbedtls"
+# Reliable Internet Stream Transport (RIST)
+brew "librist"
+# SDL2 compatibility layer that uses SDL3 behind the scenes
+brew "sdl2-compat"
+# OCR (Optical Character Recognition) engine
+brew "tesseract"
+# Play, record, convert, and stream select audio and video codecs
+brew "ffmpeg"
+# Banner-like program prints strings as ASCII art
+brew "figlet"
+# Command-line fuzzy finder written in Go
+brew "fzf"
+# GNU database manager
+brew "gdbm"
+# GitHub command-line tool
+brew "gh"
+# Interpreter for PostScript and PDF
+brew "ghostscript"
+# GIF image/animation creator/editor
+brew "gifsicle"
+# Distributed revision control system
+brew "git"
+# Quickly rewrite git repository history
+brew "git-filter-repo"
+# Git extension for versioning large files
+brew "git-lfs"
+# GNU Privacy Guard (OpenPGP)
+brew "gnupg"
+# Open source programming language to build simple/reliable/efficient software
+brew "go"
+# Package compiler and linker metadata toolkit
+brew "pkgconf"
+# GNU Ubiquitous Intelligent Language for Extensions
+brew "guile"
+# Kubernetes package manager
+brew "helm"
+# CLI email client written in Rust
+brew "himalaya"
+# Improved top (interactive process viewer)
+brew "htop"
+# Website copier/offline browser
+brew "httrack"
+# ISO/IEC 23008-12:2017 HEIF file format decoder and encoder
+brew "libheif"
+# Library for reading RAW files from digital photo cameras
+brew "libraw"
+# Tools and libraries to manipulate images in select formats
+brew "imagemagick"
+# Tool to capture still images from an iSight or other video source
+brew "imagesnap"
+# Java language specific implementation of the Language Server Protocol
+brew "jdtls"
+# Extract Digicam setting info from EXIF JPEG headers
+brew "jhead"
+# JSON output from a shell
+brew "jo"
+# Image manipulation library
+brew "jpeg"
+# Utility to optimize JPEG files
+brew "jpegoptim"
+# Lightweight and flexible command-line JSON processor
+brew "jq"
+# Kubernetes command-line interface
+brew "kubernetes-cli"
+# Portable Foreign Function Interface library
+brew "libffi"
+# Implementation of the file(1) command
+brew "libmagic"
+# Rotates, compresses, and mails system logs
+brew "logrotate", restart_service: :changed
+# Text-based web browser
+brew "lynx"
+# Java-based project management
+brew "maven"
+# Yet another part-of-speech and morphological analyzer
+brew "mecab"
+# Open-source, cross-platform JavaScript runtime environment
+brew "node"
+# MongoDB Shell to connect, configure, query, and work with your MongoDB database
+brew "mongosh"
+# Collection of tools that nobody wrote when UNIX was young
+brew "moreutils"
+# Open source relational database management system
+brew "mysql"
+# Open source relational database management system
+brew "mysql-client"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim"
+# Package for scientific computing with Python
+brew "numpy"
+# Manage multiple Node.js versions
+brew "nvm"
+# Protocol buffers (Google's data interchange format)
+brew "protobuf"
+# Development kit for the Java programming language
+brew "openjdk@17"
+# Cryptography and SSL/TLS Toolkit
+brew "openssl@1.1"
+# Open Visual Inference And Optimization toolkit for AI inference
+brew "openvino"
+# PNG file optimizer
+brew "optipng"
+# OCI Registry As Storage
+brew "oras"
+# 7-Zip (high compression file archiver) implementation
+brew "p7zip"
+# Swiss-army knife of markup format conversion
+brew "pandoc"
+# PDF rendering library (based on the xpdf-3.0 code base)
+brew "poppler"
+# PDF rendering library (based on the xpdf-3.0 code base)
+brew "poppler-qt5"
+# Cross-platform library for audio I/O
+brew "portaudio"
+# Object-relational database system
+brew "postgresql@16", link: true
+# Convert bitmaps to vector graphics
+brew "potrace"
+# Monitor data's progress through a pipe
+brew "pv"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.10"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.11"
+# Generic machine emulator and virtualizer
+brew "qemu"
+# QR Code generation
+brew "qrencode"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# Install various Ruby versions and implementations
+brew "ruby-build"
+# Install Ruby, JRuby, Rubinius, TruffleRuby, or mruby
+brew "ruby-install"
+# Safe, concurrent, practical language
+brew "rust"
+# Experimental Rust compiler front-end for IDEs
+brew "rust-analyzer"
+# Rust toolchain installer
+brew "rustup"
+# Ruby version manager
+brew "rv"
+# Display and control your Android device
+brew "scrcpy"
+# SOund eXchange: universal sound sample translator
+brew "sox"
+# Fast, collaborative live terminal sharing over the web
+brew "sshx"
+# User interface to the TELNET protocol
+brew "telnet"
+# Official documentation format of the GNU project
+brew "texinfo"
+# Framework for scalable cross-language services development
+brew "thrift"
+# Instant terminal sharing
+brew "tmate"
+# Terminal multiplexer
+brew "tmux"
+# Display directories as trees (with optional color/HTML output)
+brew "tree"
+# Command-line tool for sharing terminal over the web
+brew "ttyd"
+# ODBC 3 connectivity for UNIX
+brew "unixodbc"
+# Pager/text based browser
+brew "w3m"
+# Executes a program periodically, showing output fullscreen
+brew "watch"
+# Internet file retriever
+brew "wget"
+# Tools for the WireGuard secure network tunnel
+brew "wireguard-tools"
+# Download YouTube videos from the command-line
+brew "youtube-dl"
+# Process YAML, JSON, XML, CSV and properties documents from the CLI
+brew "yq"
+# UNIX shell (command interpreter)
+brew "zsh"
+# Command-line tools for building and debugging Android apps
+cask "android-commandlinetools"
+# Android SDK component
+cask "android-platform-tools"
+# Tools for building Android applications
+cask "android-studio"
+# Multi-track audio editor and recorder
+cask "audacity"
+# Waterfall-style image viewer
+cask "flowvision"
+cask "fuse-t"
+# Set of tools to manage resources and applications hosted on Google Cloud
+cask "gcloud-cli"
+# Reverse proxy, secure introspectable tunnels to localhost
+cask "ngrok"
+# Open-source software for live streaming and screen recording
+cask "obs"
+# Multimedia player
+cask "vlc"
+cask "wkhtmltopdf"
+cargo "db-emulator-rust"
+npm "@google/gemini-cli"
+npm "@mermaid-js/mermaid-cli"
+npm "@openai/codex"
+npm "@qwen-code/qwen-code"
+npm "@shopify/cli"
+npm "@tauri-apps/cli"
+npm "aws-cdk"
+npm "corepack"
+npm "electron-icon-maker"
+npm "electron"
+npm "esbuild"
+npm "firebase-cli"
+npm "firebase-tools"
+npm "ghost-cli"
+npm "intelephense"
+npm "live-server"
+npm "markdown-server"
+npm "md-to-pdf"
+npm "playwright"
+npm "pnpm"
+npm "relay-tty"
+npm "webstudio"
+npm "wrangler"

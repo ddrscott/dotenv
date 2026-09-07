@@ -1,0 +1,11 @@
+{{- /* Secrets only apply once the age key has been copied to this machine */ -}}
+{{- if not (stat (joinPath .chezmoi.homeDir ".config/chezmoi/key.txt")) }}
+.ssh/**
+.netrc
+.pgpass
+.config/rclone/**
+.zsh/local.zsh
+{{- end }}
+{{- if ne .chezmoi.os "darwin" }}
+Library/**
+{{- end }}

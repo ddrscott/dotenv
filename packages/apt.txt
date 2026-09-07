@@ -1,0 +1,78 @@
+# Ubuntu 24.04 packages. One per line; blank lines and # comments ignored.
+# Tools that need a third-party repo or an installer live in ubuntu-extras.sh.
+
+# build + shell
+build-essential
+pkg-config
+curl
+wget
+git
+git-lfs
+zsh
+tmux
+openssh-client
+ca-certificates
+gnupg
+unzip
+p7zip-full
+moreutils
+entr
+pv
+watch
+tree
+htop
+jq
+socat
+net-tools
+wireguard-tools
+
+# modern cli (see 001-os.zsh for the fdfind/batcat aliases)
+ripgrep
+fd-find
+bat
+eza
+fzf
+zoxide
+git-delta
+
+# clipboards for tmux/pbcopy shims
+xclip
+wl-clipboard
+libnotify-bin
+
+# languages / db clients
+python3
+python3-venv
+python3-pip
+libssl-dev
+libffi-dev
+libmagic1
+unixodbc
+postgresql-client
+mysql-client
+sqlite3
+default-jdk
+maven
+golang-go
+
+# media + docs
+ffmpeg
+sox
+imagemagick
+pandoc
+poppler-utils
+ghostscript
+gifsicle
+optipng
+jpegoptim
+qrencode
+potrace
+libportaudio2
+
+# text browsers + toys
+w3m
+lynx
+elinks
+figlet
+cowsay
+wamerican

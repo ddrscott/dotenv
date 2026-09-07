@@ -1,71 +1,50 @@
 #!/bin/sh
-# Install ddrscott dotfiles
-# Usage:
+# Bootstrap a new machine (macOS, Ubuntu, or Ubuntu under WSL).
+#
 #   curl -fsSL https://raw.githubusercontent.com/ddrscott/ddrscott/master/install.sh | sh
-#   ./install.sh
-
+#
+# What it does: installs git + chezmoi, clones this repo to ~/ddrscott, then runs
+# `chezmoi init --apply`, which lays down dotfiles and runs home/run_* scripts
+# (packages, toolchains, services, repo clones) in order.
+#
+# Before running, copy the age key to ~/.config/chezmoi/key.txt if you want the
+# encrypted secrets (ssh keys, rclone.conf, local.zsh) applied on this pass.
+# Without it they are skipped; copy the key later and run `chezmoi apply` again.
 set -e
 
-REPO_URL="https://github.com/ddrscott/ddrscott.git"
-INSTALL_DIR="$HOME/ddrscott"
+REPO_SSH="git@github.com:ddrscott/ddrscott.git"
+REPO_HTTPS="https://github.com/ddrscott/ddrscott.git"
+DOTS="$HOME/ddrscott"
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
 
-# Detect if running from within repo or piped from curl
-SCRIPT_DIR="$(cd "$(dirname "$0" 2>/dev/null)" && pwd 2>/dev/null)" || SCRIPT_DIR=""
-
-if [ -f "$SCRIPT_DIR/zsh/.zshrc" ]; then
-    # Running from within cloned repo
-    THIS_DIR="$SCRIPT_DIR"
-else
-    # Piped from curl - need to clone first
-    echo "Cloning ddrscott dotfiles..."
-
-    if ! command -v git >/dev/null 2>&1; then
-        echo "Error: git is required but not installed." >&2
-        exit 1
+case "$(uname -s)" in
+  Darwin)
+    xcode-select -p >/dev/null 2>&1 || { echo "==> Installing Xcode command line tools (rerun after it finishes)"; xcode-select --install; exit 0; }
+    if ! command -v brew >/dev/null 2>&1; then
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      eval "$(/opt/homebrew/bin/brew shellenv)"
     fi
-
-    if [ -d "$INSTALL_DIR" ]; then
-        echo "Updating existing installation..."
-        git -C "$INSTALL_DIR" pull --ff-only
-    else
-        git clone "$REPO_URL" "$INSTALL_DIR"
+    command -v chezmoi >/dev/null 2>&1 || brew install chezmoi age
+    ;;
+  Linux)
+    if ! command -v git >/dev/null 2>&1 || ! command -v curl >/dev/null 2>&1; then
+      sudo apt-get update -q && sudo apt-get install -y -q git curl ca-certificates
     fi
+    command -v chezmoi >/dev/null 2>&1 || sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"
+    command -v age >/dev/null 2>&1 || sudo apt-get install -y -q age
+    ;;
+  *) echo "Unsupported OS: $(uname -s)" >&2; exit 1;;
+esac
 
-    THIS_DIR="$INSTALL_DIR"
-fi
-
-echo "Installing dotfiles from $THIS_DIR..."
-
-# Only create symlink if THIS_DIR is not already ~/ddrscott
-if [ "$THIS_DIR" != "$HOME/ddrscott" ]; then
-    rm -f ~/ddrscott 2>/dev/null || true
-    ln -sf "$THIS_DIR" ~/ddrscott
-fi
-ln -sf "$THIS_DIR/zsh/.zshrc" ~/.zshrc
-ln -sf "$THIS_DIR/tmux.conf" ~/.tmux.conf
-ln -sf "$THIS_DIR/rg/.rgignore" ~/.rgignore
-ln -sf "$THIS_DIR/screen/.screenrc" ~/.screenrc
-ln -sf "$THIS_DIR/pry/pryrc.rb" ~/.pryrc
-
-if [ -d ~/.oh-my-zsh/themes ]; then
-    ln -sf "$THIS_DIR/zsh/themes/ddrscott.zsh-theme" ~/.oh-my-zsh/themes/ddrscott.zsh-theme
+if [ -d "$DOTS/.git" ]; then
+  echo "==> Updating $DOTS"; git -C "$DOTS" pull -q --ff-only || true
 else
-    echo "Note: oh-my-zsh not found. Install it with:"
-    echo '  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+  echo "==> Cloning dotfiles"
+  git clone -q "$REPO_SSH" "$DOTS" 2>/dev/null || git clone -q "$REPO_HTTPS" "$DOTS"
 fi
 
-mkdir -p ~/.ptpython
-ln -sf "$THIS_DIR/ptpython/config.py" ~/.ptpython/config.py
+[ -f "$HOME/.config/chezmoi/key.txt" ] || echo "==> No age key at ~/.config/chezmoi/key.txt; encrypted secrets will be skipped this pass"
 
-# tinted-shell for terminal color schemes (successor to base16-shell)
-TINTED_SHELL_DIR="$HOME/.config/tinted-theming/tinted-shell"
-if [ -d "$TINTED_SHELL_DIR" ]; then
-    echo "Updating tinted-shell..."
-    git -C "$TINTED_SHELL_DIR" pull --ff-only
-else
-    echo "Installing tinted-shell..."
-    mkdir -p "$HOME/.config/tinted-theming"
-    git clone https://github.com/tinted-theming/tinted-shell.git "$TINTED_SHELL_DIR"
-fi
-
-echo "Done! Restart your shell or run: source ~/.zshrc"
+echo "==> chezmoi init --apply"
+chezmoi init --source "$DOTS" --apply
+echo "==> Done. Start a new shell: exec zsh"

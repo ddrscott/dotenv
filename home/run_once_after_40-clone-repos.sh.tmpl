@@ -1,0 +1,25 @@
+#!/bin/bash
+# Clone the repos this environment expects to find at fixed paths.
+set -uo pipefail
+DOTS="{{ .chezmoi.sourceDir | dir }}"
+echo "==> [40-clone-repos]"
+clone() { # clone URL DEST
+  if [ -d "$2/.git" ]; then echo "   exists  $2"; else git clone -q "$1" "$2" && echo "   cloned  $2" || echo "   FAILED  $1"; fi
+}
+if ! ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
+  echo "   GitHub SSH auth not working yet; copy your key, then re-run: chezmoi state delete-bucket --bucket=scriptState && chezmoi apply"
+  exit 0
+fi
+clone git@github.com:ddrscott/claude-config.git  "$HOME/.claude"
+clone git@github.com:ddrscott/config-nvm.git     "$HOME/.config/nvim"
+clone git@github.com:ddrscott/life.git           "$HOME/life"
+{{ if .cloneCode -}}
+mkdir -p "$HOME/code"
+grep -vE '^\s*(#|$)' "$DOTS/packages/code-repos.txt" | while read -r name url; do
+  case "$url" in /*) continue;; esac    # skip local-path remotes
+  clone "$url" "$HOME/code/$name"
+done
+{{ else -}}
+echo "   cloneCode=false; to pull ~/code later: set cloneCode = true in ~/.config/chezmoi/chezmoi.toml, then: chezmoi state delete-bucket --bucket=scriptState && chezmoi apply"
+{{ end -}}
+echo "==> [40-clone-repos] done"
