@@ -33,7 +33,9 @@ if [ ! -s "$NVM_DIR/nvm.sh" ]; then
 fi
 . "$NVM_DIR/nvm.sh"
 nvm install 22 >/dev/null && nvm alias default 22 >/dev/null
-grep -vE '^\s*(#|$)' "$DOTS/packages/npm-globals.txt" | xargs npm install -g --silent
+grep -vE '^\s*(#|$)' "$DOTS/packages/npm-globals.txt" | while read -r pkg; do
+  npm install -g --no-fund --no-audit --loglevel=error "$pkg" >/dev/null || echo "   ! npm -g $pkg failed"
+done
 
 # rust (brew provides rustup on mac; on linux use the installer)
 command -v rustup >/dev/null 2>&1 || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
