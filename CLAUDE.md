@@ -7,7 +7,7 @@ Scott Pierce's dotfiles, managed by chezmoi. Bootstraps macOS, Ubuntu, and WSL. 
 - `.chezmoiroot` points the source state at `home/`. Everything outside `home/` (zsh/custom, packages/, services/, bin/) is plain repo content that scripts and `~/.zshrc` reference by path.
 - The chezmoi `sourceDir` is `~/ddrscott` (set in `home/.chezmoi.toml.tmpl`), so `chezmoi cd` lands in the repo root.
 - Templates get `.role` (`mac` | `ubuntu` | `wsl`), `.wsl`, `.lifeSync`, `.cloneCode` from the config template.
-- `run_onchange_*` scripts embed a `sha256sum` of the manifest they consume, so changing a manifest re-runs the script on next `chezmoi apply`. `run_once_*` runs a single time per machine.
+- `run_onchange_*` scripts embed a `sha256sum` of the manifest they consume, so changing a manifest re-runs the script on next `chezmoi apply`. `run_after_40-clone-repos` runs on every apply and is idempotent.
 - Secrets are `encrypted_*.age` files. Adding one: `chezmoi add --encrypt <path>`. Never commit plaintext keys; `home/.chezmoiignore` skips encrypted targets when `~/.config/chezmoi/key.txt` is absent.
 
 ## Editing rules

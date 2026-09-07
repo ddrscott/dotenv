@@ -1,18 +1,22 @@
+# PyPI tools, one per line (uv tool install <name>).
+
 analytics-mcp
 ansible
 black
 frogmouth
 jupyter-core
 mcp
-md-to-print
 mistral-vibe
 mkdocs
-randomsweatercat
-sqldiff
 sqlparse
 tabulate
-timelapse-py
 weasyprint
-wiz-radio
 youtube-transcript-api
 yt-dlp
+
+# Local projects: install after ~/code is cloned with `uv tool install -e <path>`
+# md-to-print  ~/code/md-to-print
+# wiz-radio  ~/code/wiz-radio
+# sqldiff  ~/code/sqldiff (local project)
+# randomsweatercat  ~/code/randomsweatercat.com
+# timelapse-py  ~/code/timelapse-py

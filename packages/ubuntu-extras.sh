@@ -1,6 +1,7 @@
 #!/bin/bash
 # Ubuntu tools that are missing or stale in apt. Idempotent; safe to re-run.
 set -euo pipefail
+USER="${USER:-$(id -un)}"   # unset under sudo -u and in containers
 BIN="$HOME/.local/bin"; mkdir -p "$BIN"
 ARCH=$(dpkg --print-architecture)   # amd64 | arm64
 have() { command -v "$1" >/dev/null 2>&1; }

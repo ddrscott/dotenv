@@ -1,6 +1,7 @@
 #!/bin/bash
 # GUI apps for a native Ubuntu desktop. Not run under WSL.
 set -euo pipefail
+USER="${USER:-$(id -un)}"   # unset under sudo -u and in containers
 have() { command -v "$1" >/dev/null 2>&1; }
 KEYRINGS=/etc/apt/keyrings
 

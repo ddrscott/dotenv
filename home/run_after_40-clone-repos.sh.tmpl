@@ -1,13 +1,14 @@
 #!/bin/bash
-# Clone the repos this environment expects to find at fixed paths.
+# Clone the repos this environment expects to find at fixed paths. Runs on every apply; each clone is skipped when present.
 set -uo pipefail
 DOTS="{{ .chezmoi.sourceDir | dir }}"
 echo "==> [40-clone-repos]"
 clone() { # clone URL DEST
   if [ -d "$2/.git" ]; then echo "   exists  $2"; else git clone -q "$1" "$2" && echo "   cloned  $2" || echo "   FAILED  $1"; fi
 }
-if ! ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
-  echo "   GitHub SSH auth not working yet; copy your key, then re-run: chezmoi state delete-bucket --bucket=scriptState && chezmoi apply"
+ssh_out=$(ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -T git@github.com 2>&1 || true)   # no pipe: pipefail + grep -q would SIGPIPE ssh
+if [[ "$ssh_out" != *"successfully authenticated"* ]]; then
+  echo "   GitHub SSH auth not working yet; copy your key or start ssh-agent, then re-run: chezmoi apply"
   exit 0
 fi
 clone git@github.com:ddrscott/claude-config.git  "$HOME/.claude"
@@ -20,6 +21,6 @@ grep -vE '^\s*(#|$)' "$DOTS/packages/code-repos.txt" | while read -r name url; d
   clone "$url" "$HOME/code/$name"
 done
 {{ else -}}
-echo "   cloneCode=false; to pull ~/code later: set cloneCode = true in ~/.config/chezmoi/chezmoi.toml, then: chezmoi state delete-bucket --bucket=scriptState && chezmoi apply"
+echo "   cloneCode=false; to pull ~/code later: set cloneCode = true in ~/.config/chezmoi/chezmoi.toml, then: chezmoi apply"
 {{ end -}}
 echo "==> [40-clone-repos] done"
