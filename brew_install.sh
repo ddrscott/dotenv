@@ -35,6 +35,7 @@ brew install \
   kind \
   neovim \
   pv \
+  rclone \
   ripgrep \
   rustup \
   scrcpy \

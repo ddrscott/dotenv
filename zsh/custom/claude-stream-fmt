@@ -1,0 +1,102 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# ///
+"""
+Format streaming JSON from `claude -p --output-format stream-json`.
+
+Progress (thinking, tool use, text) → stderr (readable)
+Final result                        → stdout (capturable)
+
+Usage:
+  claude -p 'your prompt' --output-format stream-json | python claude-stream-fmt.py
+  result=$(claude -p 'your prompt' --output-format stream-json | python claude-stream-fmt.py)
+"""
+
+import json
+import sys
+
+DIM = "\033[2m"
+BOLD = "\033[1m"
+CYAN = "\033[36m"
+YELLOW = "\033[33m"
+GREEN = "\033[32m"
+RESET = "\033[0m"
+
+def log(msg, end="\n"):
+    sys.stderr.write(msg + end)
+    sys.stderr.flush()
+
+def format_content_block(block):
+    btype = block.get("type", "")
+    if btype == "thinking":
+        text = block.get("thinking", "")
+        if text:
+            # Truncate long thinking to keep it scannable
+            preview = text[:200].replace("\n", " ")
+            if len(text) > 200:
+                preview += "…"
+            log(f"  {DIM}💭 {preview}{RESET}")
+    elif btype == "text":
+        text = block.get("text", "")
+        if text:
+            log(f"  {text}")
+    elif btype == "tool_use":
+        name = block.get("name", "?")
+        inp = block.get("input", {})
+        # Show a compact summary of the tool call
+        summary = json.dumps(inp, separators=(",", ":"))
+        if len(summary) > 120:
+            summary = summary[:120] + "…"
+        log(f"  {YELLOW}🔧 {name}{RESET} {DIM}{summary}{RESET}")
+
+def handle_event(event):
+    etype = event.get("type", "")
+    subtype = event.get("subtype", "")
+
+    if etype == "system" and subtype == "init":
+        model = event.get("model", "?")
+        cwd = event.get("cwd", "")
+        log(f"{DIM}── session: {model} in {cwd}{RESET}")
+
+    elif etype == "assistant":
+        msg = event.get("message", {})
+        content = msg.get("content", [])
+        for block in content:
+            format_content_block(block)
+
+    elif etype == "user":
+        # Tool results — just show a brief acknowledgment
+        msg = event.get("message", {})
+        for item in msg.get("content", []):
+            if item.get("type") == "tool_result":
+                content = item.get("content", "")
+                if isinstance(content, str):
+                    preview = content[:100].replace("\n", " ")
+                    if len(content) > 100:
+                        preview += "…"
+                    log(f"  {DIM}← {preview}{RESET}")
+
+    elif etype == "result":
+        result = event.get("result", "")
+        cost = event.get("total_cost_usd", 0)
+        duration = event.get("duration_ms", 0)
+        turns = event.get("num_turns", 0)
+        log(f"\n{GREEN}── done{RESET} {DIM}{turns} turns, {duration/1000:.1f}s, ${cost:.4f}{RESET}\n")
+        # Final result → stdout
+        if result:
+            print(result)
+
+def main():
+    for line in sys.stdin:
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            event = json.loads(line)
+            handle_event(event)
+        except json.JSONDecodeError:
+            log(f"{DIM}(unparsed: {line[:80]}){RESET}")
+
+if __name__ == "__main__":
+    main()

@@ -80,3 +80,10 @@ compinit
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 [ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 [ -f "$HOME/.deno/env" ] && . "$HOME/.deno/env"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH="$HOME/life/bin:$PATH"
+
+# Qwen Code PATH block begin
+export PATH='/Users/spierce/.local/bin':$PATH
+# Qwen Code PATH block end

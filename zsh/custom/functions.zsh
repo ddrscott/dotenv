@@ -1,3 +1,5 @@
+_current_dir="${0:A:h}"
+
 function set_nvr {
   export NVIM_LISTEN_ADDRESS=`nvr --serverlist | sed '/^$/d' | head -1`
 }
@@ -179,9 +181,25 @@ recent() {
 #   yolo                           # interactive mode
 #   yolo fix the build errors      # with prompt
 yolo() {
-  if [ $# -eq 0 ]; then
-    claude --dangerously-skip-permissions
-  else
-    claude --dangerously-skip-permissions -p "$*"
-  fi
+  claude --dangerously-skip-permissions $*
+}
+
+
+rolo() {
+  relay claude --dangerously-skip-permissions $*
+}
+
+wa() {
+  claude --verbose \
+    --output-format stream-json \
+    --dangerously-skip-permissions -p "/work:add ${*}" \
+    | ${_current_dir}/claude-stream-fmt
+}
+
+ask() {
+  claude --verbose \
+    --model haiku \
+    --output-format stream-json \
+    --dangerously-skip-permissions -p "${*}" \
+    | ${_current_dir}/claude-stream-fmt
 }

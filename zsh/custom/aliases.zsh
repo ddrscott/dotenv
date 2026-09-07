@@ -19,8 +19,8 @@ alias gbr='git branch --sort=committerdate'
 alias sed-stat="sed -E 's~ ([^ |]+)([ |])+(.+)~\1:0:0 \3~'"
 alias ggpushf='ggpush --force-with-lease'
 
-alias light=base16_solarized-light
-alias dark=base16_ocean
+# alias light=base16_solarized-light
+# alias dark=base16_ocean
 alias dict='cat /usr/share/dict/words | fzf --preview "open -g dict://{}; echo See Dictionary.app"'
 
 alias pbc='pbpaste | pbcopy'
