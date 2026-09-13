@@ -40,7 +40,7 @@ if [ -f "$HOME/.npmrc" ] && grep -q '^prefix=' "$HOME/.npmrc"; then
 fi
 . "$NVM_DIR/nvm.sh" || true
 nvm install 22 >/dev/null && nvm alias default 22 >/dev/null || echo "   ! nvm install 22 failed; node is $(node -v 2>/dev/null || echo absent)"
-{{ if not (.minimalToolchain | default false) -}}
+{{ if not (index . "minimalToolchain" | default false) -}}
 # electron, playwright and mermaid-cli alone pull ~3.5 GB once their browser
 # caches land, so a small-rootfs box takes node without the global CLIs.
 grep -vE '^\s*(#|$)' "$DOTS/packages/npm-globals.txt" | while read -r pkg; do
@@ -50,7 +50,7 @@ done
 echo "   minimalToolchain=true; skipping npm globals"
 {{ end -}}
 
-{{ if not (.minimalToolchain | default false) -}}
+{{ if not (index . "minimalToolchain" | default false) -}}
 # rust (brew provides rustup on mac; on linux use the installer)
 command -v rustup >/dev/null 2>&1 || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
 rustup default stable >/dev/null 2>&1 || rustup-init -y --no-modify-path >/dev/null 2>&1 || true
