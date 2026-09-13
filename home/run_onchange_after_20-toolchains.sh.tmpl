@@ -31,13 +31,14 @@ export NVM_DIR="$HOME/.nvm"
 if [ ! -s "$NVM_DIR/nvm.sh" ]; then
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | PROFILE=/dev/null bash
 fi
-. "$NVM_DIR/nvm.sh"
 # A `prefix` in ~/.npmrc (the pre-nvm way of getting user-writable globals)
-# makes nvm exit 11 and, under set -e, takes the whole apply with it.
-if npm config get prefix --location=user 2>/dev/null | grep -qv '^undefined$'; then
-  npm config delete prefix --location=user 2>/dev/null || true
-  echo "   removed npm prefix from ~/.npmrc; it is incompatible with nvm"
+# makes sourcing nvm.sh return 11, which under set -e takes the apply with it.
+# It has to go before the source, not after.
+if [ -f "$HOME/.npmrc" ] && grep -q '^prefix=' "$HOME/.npmrc"; then
+  sed -i.bak '/^prefix=/d' "$HOME/.npmrc"
+  echo "   removed prefix= from ~/.npmrc (incompatible with nvm); backup at ~/.npmrc.bak"
 fi
+. "$NVM_DIR/nvm.sh" || true
 nvm install 22 >/dev/null && nvm alias default 22 >/dev/null || echo "   ! nvm install 22 failed; node is $(node -v 2>/dev/null || echo absent)"
 {{ if not (.minimalToolchain | default false) -}}
 # electron, playwright and mermaid-cli alone pull ~3.5 GB once their browser
