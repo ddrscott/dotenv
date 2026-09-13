@@ -33,9 +33,15 @@ if [ ! -s "$NVM_DIR/nvm.sh" ]; then
 fi
 . "$NVM_DIR/nvm.sh"
 nvm install 22 >/dev/null && nvm alias default 22 >/dev/null
+{{ if not (.minimalToolchain | default false) -}}
+# electron, playwright and mermaid-cli alone pull ~3.5 GB once their browser
+# caches land, so a small-rootfs box takes node without the global CLIs.
 grep -vE '^\s*(#|$)' "$DOTS/packages/npm-globals.txt" | while read -r pkg; do
   npm install -g --no-fund --no-audit --loglevel=error "$pkg" >/dev/null || echo "   ! npm -g $pkg failed"
 done
+{{ else -}}
+echo "   minimalToolchain=true; skipping npm globals"
+{{ end -}}
 
 {{ if not (.minimalToolchain | default false) -}}
 # rust (brew provides rustup on mac; on linux use the installer)
