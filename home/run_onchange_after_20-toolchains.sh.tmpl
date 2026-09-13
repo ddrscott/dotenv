@@ -52,7 +52,14 @@ if ! command -v rbenv >/dev/null 2>&1 && [ ! -d "$HOME/.rbenv" ]; then
 fi
 
 {{ if eq .chezmoi.os "linux" -}}
-# ollama on linux (mac uses the Ollama.app download)
-command -v ollama >/dev/null 2>&1 || curl -fsSL https://ollama.com/install.sh | sh
+# ollama on linux (mac uses the Ollama.app download). Its installer writes to
+# /usr/local and wants systemd, so it needs root; everything above is per-user.
+if ! command -v ollama >/dev/null 2>&1; then
+  if [ "$(id -u)" -eq 0 ] || command -v sudo >/dev/null 2>&1; then
+    curl -fsSL https://ollama.com/install.sh | sh
+  else
+    echo "   no root; skipping ollama"
+  fi
+fi
 {{ end -}}
 echo "==> [20-toolchains] done"

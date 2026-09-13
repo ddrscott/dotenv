@@ -18,11 +18,21 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 brew bundle --file="$DOTS/packages/Brewfile" --no-upgrade
 {{ else if eq .chezmoi.os "linux" -}}
 export DEBIAN_FRONTEND=noninteractive
-sudo apt-get update -q
-grep -vE '^\s*(#|$)' "$DOTS/packages/apt.txt" | xargs sudo apt-get install -y -q
-bash "$DOTS/packages/ubuntu-extras.sh"
+# Unprivileged LXC guests have no root path at all, and apt is the only step
+# here that needs one. Skip it rather than abort, so the dotfiles still apply.
+if [ "$(id -u)" -eq 0 ]; then SUDO=""
+elif command -v sudo >/dev/null 2>&1; then SUDO="sudo"
+else SUDO=""; NO_ROOT=1
+fi
+if [ -n "${NO_ROOT:-}" ]; then
+  echo "   no root and no sudo; skipping apt packages and extras"
+else
+  $SUDO apt-get update -q
+  grep -vE '^\s*(#|$)' "$DOTS/packages/apt.txt" | xargs $SUDO apt-get install -y -q
+  bash "$DOTS/packages/ubuntu-extras.sh"
 {{ if not .wsl -}}
-if [ -d /run/systemd/system ]; then bash "$DOTS/packages/ubuntu-desktop.sh"; else echo "   no systemd (container?); skipping desktop apps"; fi
+  if [ -d /run/systemd/system ]; then bash "$DOTS/packages/ubuntu-desktop.sh"; else echo "   no systemd (container?); skipping desktop apps"; fi
 {{ end -}}
+fi
 {{ end -}}
 echo "==> [10-packages] done"
