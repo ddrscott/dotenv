@@ -37,6 +37,7 @@ grep -vE '^\s*(#|$)' "$DOTS/packages/npm-globals.txt" | while read -r pkg; do
   npm install -g --no-fund --no-audit --loglevel=error "$pkg" >/dev/null || echo "   ! npm -g $pkg failed"
 done
 
+{{ if not (.minimalToolchain | default false) -}}
 # rust (brew provides rustup on mac; on linux use the installer)
 command -v rustup >/dev/null 2>&1 || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
 rustup default stable >/dev/null 2>&1 || rustup-init -y --no-modify-path >/dev/null 2>&1 || true
@@ -50,6 +51,9 @@ if ! command -v rbenv >/dev/null 2>&1 && [ ! -d "$HOME/.rbenv" ]; then
   git clone -q https://github.com/rbenv/rbenv.git "$HOME/.rbenv"
   git clone -q https://github.com/rbenv/ruby-build.git "$HOME/.rbenv/plugins/ruby-build"
 fi
+{{ else -}}
+echo "   minimalToolchain=true; skipping rust, bun, deno and rbenv"
+{{ end -}}
 
 {{ if eq .chezmoi.os "linux" -}}
 # ollama on linux (mac uses the Ollama.app download). Its installer writes to

@@ -5,6 +5,8 @@
 {{- if $wsl }}{{ $role = "wsl" }}{{ else if eq .chezmoi.os "linux" }}{{ $role = "ubuntu" }}{{ end -}}
 {{- /* CLONE_CODE=1 sh install.sh  (or edit cloneCode in ~/.config/chezmoi/chezmoi.toml later) */ -}}
 {{- $cloneCode := ne (env "CLONE_CODE" | default "0") "0" -}}
+{{- /* MINIMAL_TOOLCHAIN=1 on small-disk boxes; skips rust, bun, deno and rbenv */ -}}
+{{- $minimalToolchain := ne (env "MINIMAL_TOOLCHAIN" | default "0") "0" -}}
 
 sourceDir = {{ .chezmoi.sourceDir | dir | quote }}
 encryption = "age"
@@ -17,5 +19,7 @@ encryption = "age"
     role = {{ $role | quote }}
     wsl = {{ $wsl }}
     cloneCode = {{ $cloneCode }}
-    # life bisync runs on machines that own a local mirror; WSL reads on demand instead
+    # skips the ~1.5 GB rust toolchain and friends; for containers with a small rootfs
+    minimalToolchain = {{ $minimalToolchain }}
+    # gates both the ~/life clone and its bisync service; WSL reads on demand instead
     lifeSync = {{ not $wsl }}

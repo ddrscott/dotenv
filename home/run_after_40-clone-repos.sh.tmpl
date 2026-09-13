@@ -13,7 +13,11 @@ if [[ "$ssh_out" != *"successfully authenticated"* ]]; then
 fi
 clone git@github.com:ddrscott/claude-config.git  "$HOME/.claude"
 clone git@github.com:ddrscott/config-nvm.git     "$HOME/.config/nvim"
+{{ if .lifeSync -}}
 clone git@github.com:ddrscott/life.git           "$HOME/life"
+{{ else -}}
+echo "   lifeSync=false; skipping ~/life on this machine"
+{{ end -}}
 {{ if .cloneCode -}}
 mkdir -p "$HOME/code"
 grep -vE '^\s*(#|$)' "$DOTS/packages/code-repos.txt" | while read -r name url; do
