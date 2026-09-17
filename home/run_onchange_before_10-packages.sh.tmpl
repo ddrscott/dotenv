@@ -24,9 +24,11 @@ export DEBIAN_FRONTEND=noninteractive
 # abort under set -e, so the dotfiles and user-level toolchains still land.
 if [ "$(id -u)" -eq 0 ]; then SUDO=""
 elif ! command -v sudo >/dev/null 2>&1; then SUDO=""; SKIP="no root and no sudo"
-elif sudo -n true 2>/dev/null; then SUDO="sudo"
-elif [ -t 0 ]; then SUDO="sudo"   # can prompt
-else SUDO=""; SKIP="sudo needs a password and there is no terminal; re-run as: ssh -t <host> 'chezmoi apply'"
+else
+  [ -t 0 ] && sudo -v 2>/dev/null || true          # prompt once, only with a terminal
+  if sudo -n true 2>/dev/null; then SUDO="sudo -n" # -n so a stale timestamp can never hang the run
+  else SUDO=""; SKIP="sudo needs a password and there is no terminal; re-run as: ssh -t <host> 'chezmoi apply'"
+  fi
 fi
 if [ -n "${SKIP:-}" ]; then
   echo "   $SKIP; skipping apt packages and extras"
