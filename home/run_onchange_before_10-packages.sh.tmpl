@@ -25,7 +25,9 @@ export DEBIAN_FRONTEND=noninteractive
 if [ "$(id -u)" -eq 0 ]; then SUDO=""
 elif ! command -v sudo >/dev/null 2>&1; then SUDO=""; SKIP="no root and no sudo"
 else
-  [ -t 0 ] && sudo -v 2>/dev/null || true          # prompt once, only with a terminal
+  # A tty is not proof of a human: `RequestTTY force` in ssh_config gives
+  # scripted commands one too, so cap the prompt instead of waiting forever.
+  [ -t 0 ] && timeout 15 sudo -v 2>/dev/null || true
   if sudo -n true 2>/dev/null; then SUDO="sudo -n" # -n so a stale timestamp can never hang the run
   else SUDO=""; SKIP="sudo needs a password and there is no terminal; re-run as: ssh -t <host> 'chezmoi apply'"
   fi
