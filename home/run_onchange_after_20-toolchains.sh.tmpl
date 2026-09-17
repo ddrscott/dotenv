@@ -55,9 +55,11 @@ echo "   minimalToolchain=true; skipping npm globals"
 command -v rustup >/dev/null 2>&1 || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
 rustup default stable >/dev/null 2>&1 || rustup-init -y --no-modify-path >/dev/null 2>&1 || true
 
-# bun, deno
-command -v bun  >/dev/null 2>&1 || curl -fsSL https://bun.sh/install | bash
-command -v deno >/dev/null 2>&1 || curl -fsSL https://deno.land/install.sh | sh -s -- --no-modify-path
+# bun, deno. Both unpack archives with tools that come from apt.txt (bun needs
+# unzip), so on a box where the apt step was skipped they fail; report and move
+# on rather than take the rest of the apply down with them.
+command -v bun  >/dev/null 2>&1 || curl -fsSL https://bun.sh/install | bash || echo "   ! bun install failed (unzip missing? run the apt step)"
+command -v deno >/dev/null 2>&1 || curl -fsSL https://deno.land/install.sh | sh -s -- --no-modify-path || echo "   ! deno install failed"
 
 # ruby via rbenv (mac: brew rbenv; linux: git install)
 if ! command -v rbenv >/dev/null 2>&1 && [ ! -d "$HOME/.rbenv" ]; then
