@@ -18,14 +18,18 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 brew bundle --file="$DOTS/packages/Brewfile" --no-upgrade
 {{ else if eq .chezmoi.os "linux" -}}
 export DEBIAN_FRONTEND=noninteractive
-# Unprivileged LXC guests have no root path at all, and apt is the only step
-# here that needs one. Skip it rather than abort, so the dotfiles still apply.
+# apt is the only step here that needs root, and two machines can't give it:
+# an unprivileged LXC has no sudo at all, and a box whose sudo wants a password
+# can't prompt when chezmoi runs over a non-interactive ssh. Skip rather than
+# abort under set -e, so the dotfiles and user-level toolchains still land.
 if [ "$(id -u)" -eq 0 ]; then SUDO=""
-elif command -v sudo >/dev/null 2>&1; then SUDO="sudo"
-else SUDO=""; NO_ROOT=1
+elif ! command -v sudo >/dev/null 2>&1; then SUDO=""; SKIP="no root and no sudo"
+elif sudo -n true 2>/dev/null; then SUDO="sudo"
+elif [ -t 0 ]; then SUDO="sudo"   # can prompt
+else SUDO=""; SKIP="sudo needs a password and there is no terminal; re-run as: ssh -t <host> 'chezmoi apply'"
 fi
-if [ -n "${NO_ROOT:-}" ]; then
-  echo "   no root and no sudo; skipping apt packages and extras"
+if [ -n "${SKIP:-}" ]; then
+  echo "   $SKIP; skipping apt packages and extras"
 else
   $SUDO apt-get update -q
   grep -vE '^\s*(#|$)' "$DOTS/packages/apt.txt" | xargs $SUDO apt-get install -y -q
